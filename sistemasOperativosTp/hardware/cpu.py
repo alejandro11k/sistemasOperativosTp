@@ -10,7 +10,7 @@ class CPU:
         self.instruction = None
         self.interruptorManager = interruptorManager
         self.timeOutLimit = 5
-        self.PC = 0
+        self.programCounter = 0
 
     def fetch(self):
         self.result = self.calculateDirection()
@@ -32,13 +32,24 @@ class CPU:
 
     def incrementPC(self):
 
-        self.PC = self.PC + 1
-        if (self.pcb.instrutions==0): ## no tiene mas instrucciones
-            self.PC=0
+        self.programCounter = self.programCounter + 1
+        self.pcb.programCounter + self.programCounter
+        
+        self.timeOutLimit + self.timeOutLimit - 1
+        
+        #revisa si el programa termino
+        if (self.pcb.instructions==self.pcb.programCounter): ## no tiene mas instrucciones
+            self.programCounter=0
             #self.interruptorManager.handle(new irq(self.pcb, "kill_insterrupt"))
-        if (self.instrutions==self.timeOutLimit): 
-            self.PC=0
+        
+        #revisa si se consumio los ciclos maximos para un mismo proceso
+        if (self.timeOutLimit==1): 
+            self.programCounter=0
             #self.interruptorManager.register("TIMEOUT_INTERRUPT", TimeOutHandler())
+          
+        #prosigue con la proxima instruccion, si no se lanzo alguna interrupcion  
+        if (self.programCounter!=0):
+            self.fetch()
 
 
 

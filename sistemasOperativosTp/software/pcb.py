@@ -10,4 +10,4 @@ class PCB:
     def incrementPC(self):
             
         self.programCounter = self.programCounter + 1
-        self.instructions = self.instructions - 1
+        

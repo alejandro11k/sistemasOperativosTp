@@ -21,9 +21,9 @@ class TestCPU(unittest.TestCase):
     def test_fecht(self):
         self.assertTrue(True)
 
-    def test_setPCB(self):
+    def test_incrementPC(self):
         self.cpu.setPCB(self.pcb)
-        self.assertEquals(self.cpu.PC,0)
+        self.assertEquals(self.cpu.programCounter,0)
 
 
 
