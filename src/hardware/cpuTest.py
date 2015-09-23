@@ -1,4 +1,5 @@
 import unittest
+
 from hardware.memory import Memory
 from hardware.cpu import CPU
 from software.interruptionManager import InterruptionManager

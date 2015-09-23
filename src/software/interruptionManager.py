@@ -1,16 +1,20 @@
+from software.killHandler import KillHandler
+
 class InterruptionManager:
     
     def __init__(self):
-        #self.irqDictionary = {}
-        pass
+        self.irqDictionary = {}
+        self.initializeDictionary()
+        self.handler = None
+        
+    def initializeDictionary(self):
+        self.irqDictionary["KILL_INTERRUPT"] = KillHandler()
 
-    #def handle(self, irq):
+    def handle(self, irq):
         
         #buscar en el diccionario el handler correspondiente
-        #handler = irqDictionary[irq]
-        #self.register(irq,handler)
-
-
+        self.handler = self.irqDictionary[irq.typeOfIrq]
+        self.register(irq,self.handler)
     
     def register(self,irq, handler):
 

@@ -1,5 +1,6 @@
 #from memory import *
 #from pcb import *
+from hardware.irq import Irq
 
 class CPU:
 
@@ -11,12 +12,21 @@ class CPU:
         self.interruptorManager = interruptorManager
         self.timeOutLimit = 5
         self.programCounter = 0
+        self.irq = None
 
     def fetch(self):
         self.result = self.calculateDirection()
         self.instruction = self.memory.get(self.result)
         # IO?
+        
+        # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
+        # self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
+        
+        ## si no es de IO la proceso
+        
+        ## despues de procesar la instruccion
         self.pcb.incrementPC()
+        
         self.incrementPC()
 
     def calculateDirection(self):
@@ -26,21 +36,18 @@ class CPU:
     def setPCB(self,pcb):
 
         self.pcb=pcb
-        # si el pcb es de IO la que puede ser de IO es la instruccion del programa
-        # self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
         self.fetch()
 
     def incrementPC(self):
 
-        self.programCounter = self.programCounter + 1
-        self.pcb.programCounter + self.programCounter
-        
+        self.programCounter = self.pcb.programCounter      
         self.timeOutLimit + self.timeOutLimit - 1
         
         #revisa si el programa termino
         if (self.pcb.instructions==self.pcb.programCounter): ## no tiene mas instrucciones
             self.programCounter=0
-            #self.interruptorManager.handle(new irq(self.pcb, "kill_insterrupt"))
+            self.irq = Irq("KILL_INTERRUPT",self.pcb)
+            self.interruptorManager.handle(self.irq)
         
         #revisa si se consumio los ciclos maximos para un mismo proceso
         if (self.timeOutLimit==1): 
