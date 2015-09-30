@@ -4,15 +4,12 @@ class InterruptionManager:
     
     def __init__(self):
         self.irqDictionary = {}
-        self.initializeDictionary()
         self.handler = None
         
-    def initializeDictionary(self):
-        self.irqDictionary["KILL_INTERRUPT"] = KillHandler()
-        #setear desde afuera, estos es un registrer
+    def addIrqDictionary(self, iRQtype,irqHandler):
+        self.irqDictionary[iRQtype] = irqHandler
 
     def handle(self, irq):
-        
         
         #buscar en el diccionario el handler correspondiente
         self.handler = self.irqDictionary[irq.typeOfIrq]
@@ -39,4 +36,6 @@ cpu hace :
 
 
 Handler.handle(pcb)
+
+self.irqDictionary["KILL_INTERRUPT"] = KillHandler()
 """

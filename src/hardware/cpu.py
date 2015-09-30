@@ -1,6 +1,7 @@
 #from memory import *
 #from pcb import *
 from hardware.irq import Irq
+from hardware.irqType import IrqType
 
 class CPU:
 
@@ -46,7 +47,7 @@ class CPU:
         #revisa si el programa termino
         if (self.pcb.instructions==self.pcb.programCounter): ## no tiene mas instrucciones
             self.programCounter=0
-            self.irq = Irq("KILL_INTERRUPT",self.pcb)
+            self.irq = Irq(IrqType.irqKILL,self.pcb)
             self.interruptorManager.handle(self.irq)
         
         #revisa si se consumio los ciclos maximos para un mismo proceso
