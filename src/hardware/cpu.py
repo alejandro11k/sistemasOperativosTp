@@ -36,7 +36,7 @@ class CPU:
     def setPCB(self,pcb):
 
         self.pcb=pcb
-        self.fetch()
+        self.fetch() #llamar a mano! no en el cpu ni aca
 
     def incrementPC(self):
 
@@ -56,7 +56,7 @@ class CPU:
           
         #prosigue con la proxima instruccion, si no se lanzo alguna interrupcion  
         if (self.programCounter!=0):
-            self.fetch()
+            self.fetch() ## esto lo hace otrho componente
 
 
 
