@@ -7,6 +7,10 @@ from software.pcb import PCB
 
 class TestCPU(unittest.TestCase):
 
+    '''
+    este test esta desactualizado, y las clases nuevas estan
+    en proceso
+    '''
 
     def setUp(self):
         self.pcb = PCB(0,2)
