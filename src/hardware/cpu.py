@@ -12,7 +12,6 @@ class CPU:
         self.instruction = None
         self.interruptorManager = interruptorManager
         self.timeOutLimit = 5
-        self.programCounter = 0
         self.irq = None
 
     def fetch(self):
@@ -37,7 +36,6 @@ class CPU:
     def setPCB(self,pcb):
 
         self.pcb=pcb
-        self.fetch() #llamar a mano! no en el cpu ni aca
 
     def incrementPC(self):
 
