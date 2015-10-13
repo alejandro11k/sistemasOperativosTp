@@ -3,13 +3,12 @@ from software.processStates import ProcessStates
 
 class PCB:
 
-    def __init__(self, baseDirection,instructions):
+    def __init__(self, baseDirection,lastDirection):
         self.idProcess = 0
         self.programCounter = 0
         self.baseDirection = baseDirection
         self.state = ProcessStates.processNew
-        # cantidad total de instrucciones
-        self.instructions = instructions
+        self.lastDirection = lastDirection
 
     def incrementPC(self):
             

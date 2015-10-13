@@ -13,3 +13,4 @@ class Memory:
 
         return self.memory[direction]
 
+    
