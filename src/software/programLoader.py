@@ -14,4 +14,7 @@ class ProgramLoader:
         self.memoryDump(self.programCopy)
         
     def memoryDump(self,program):
-        pass
+        
+        
+        self.instructionToDump(program.nextInstruction())
+        self.memory.put(self.instructionToDump)

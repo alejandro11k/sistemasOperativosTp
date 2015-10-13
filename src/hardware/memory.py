@@ -2,12 +2,12 @@ class Memory:
 
     def __init__(self):
         self.memory = {}
-        self.direction = 0
+        self.firstFreeDirection = 0
 
     def put(self, instruction):
 
-        self.memory[self.direction] = instruction
-        self.direction = self.direction + 1
+        self.memory[self.firstFreeDirection] = instruction
+        self.direction = self.firstFreeDirection + 1
 
     def get(self, direction):
 
