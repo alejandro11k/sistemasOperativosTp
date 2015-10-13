@@ -10,4 +10,4 @@ class Program:
         return self.instructionsList.firstQ()
     
     def isLastInstuction(self):
-        return self.instructionsList
+        return (self.instructionsList.elements() == 1)

@@ -8,6 +8,7 @@ class MyQueue:
     def firstQ(self):
         #si no tengo elementos rompe
         self.list.pop(0)
+        self.elements = self.elements - 1
         
     def queue(self,element):
         self.append(element)
@@ -15,4 +16,7 @@ class MyQueue:
         
     def isEmpty(self):
         return (self.elements == 0)
+    
+    def elements(self):
+        return self.elements
         
