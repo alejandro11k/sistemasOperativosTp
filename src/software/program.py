@@ -11,3 +11,4 @@ class Program:
     
     def isLastInstuction(self):
         return (self.instructionsList.elements() == 1)
+        
