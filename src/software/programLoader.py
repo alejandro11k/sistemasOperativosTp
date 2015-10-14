@@ -11,25 +11,19 @@ class ProgramLoader:
         self.pcbTable = pcbTable
         self.hardDisk = hardDisk
         self.memory = memory
-        self.programCopyInitialAdress = None
-        self.programCopyLastAdress = None
-        self.programCopyPCB = None
         self.qReady = qReady
         
         
     def load(self,programName):
-        self.pcbCreate()
-        self.programCopy = self.hardDisk.find(programName)
-        self.memoryDump(self.programCopy)
-        self.programCopyPCB.fillDirections(self.programCopyInitialAdress, self.programCopyLastAdress)
-        self.pcbTable.add(self.programCopyPCB)
-        self.qReady.queue(self.programCopyPCB)
-        self.programCopyPCB.setState(ProcessStates.processReady)
-        self.setDefault()
+        programCopy = self.hardDisk.find(programName)
+        pcb = self.pcbCreate()
+        self.memoryDump(programCopy, pcb)
+        self.pcbTable.add(pcb)
+        self.qReady.queue(pcb)
         
         
-    def memoryDump(self,program):
-        self.programCopyInitialAdress = self.memory.firstFreeDirection
+    def memoryDump(self, program, pcb):
+        pcb.baseDirection = self.memory.firstFreeDirection
         
         while(not program.isLastInstuction()):
             self.instructionToDump(program.nextInstruction())
@@ -38,14 +32,9 @@ class ProgramLoader:
         self.instructionToDump(program.nextInstruction())
         self.memory.put(self.instructionToDump)
         
-        self.programCopyLastAdress = self.memory.lastFreeDirection
+        pcb.lastDirection = self.memory.lastFreeDirection
     
     def pcbCreate(self):
         self.programCopyPCB = PCB(self.pcbTable.nextFreeId())
-        
-    def setDefault(self):
-        self.programCopyInitialAdress = None
-        self.programCopyLastAdress = None
-        self.programCopyPCB = None
         
         

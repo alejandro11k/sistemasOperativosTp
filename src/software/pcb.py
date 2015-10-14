@@ -8,7 +8,7 @@ class PCB:
         self.idProcess = idProcess
         self.programCounter = 0
         self.baseDirection = None
-        self.state = ProcessStates.processNew
+        self.state = ProcessStates.processReady
         self.lastDirection = None
 
     def incrementPC(self):
