@@ -1,6 +1,7 @@
 class HardDisk:
     
     def __init__(self):
-        pass
+        self.programs = []
 
-    
+    def find(self,programName):
+        

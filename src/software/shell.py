@@ -1,15 +1,16 @@
+from software.programLoader import ProgramLoader
+
 class Shell:
     
-    def __init__ (self):
-        pass
-        
-        
+    def __init__ (self, programLoader):
+        self.programLoader = programLoader
+              
     def ps(self):
         pass
         #TODO
         #Mostrar todos los procesos y sus estados.
         
     def run(self, nameProgram):
-        pass
+        self.programLoader.load(nameProgram)
     
     
