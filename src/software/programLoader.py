@@ -1,4 +1,4 @@
-from hardware.hardDisk import HardDisk
+from hardware.hard_disk import HardDisk
 from hardware.memory import Memory
 from software.program import Program
 from software.pcb import PCB

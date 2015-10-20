@@ -1,3 +1,6 @@
-class Hard_disc:
+class HardDisk:
     
-    def __init__ (self):
+    def __init__(self):
+        self.programs = []
+
+    def find(self,programName):
