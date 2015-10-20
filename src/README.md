@@ -7,20 +7,21 @@ Cola de ready, waiting
 Schedule 
 - Falta que el pcb saque de la cola de  ready y se lo de a la cpu
 
-"un test que deberÃ­an hacer:
-agarrÃ¡ un programa, una instrucciÃ³n de I/O 
-dÃ¡selo al cpu
+"un test que deberían hacer:
+agarrá un programa, una instrucción de I/O 
+dáselo al cpu
 cpu.run
-y hacÃ©s un assert que levante la interrupciÃ³n de I/O en la cola de interrupciones" (esto lo dijo el ayudante y lo copiÃ© como pude.
+y hacés un assert que levante la interrupción de I/O en la cola de interrupciones" (esto lo dijo el ayudante y lo copié como pude.
 
 Correcciones del profe cuando vino a ver nuestro TP
 
 clase.variable para interrupciones
 NO USAR STRINGS
-ponerlo en irq (mÃ¡s fÃ¡cil para cambiar)
+ponerlo en irq (más fácil para cambiar)
 
-interruption_manager -> estÃ¡ vacÃ­o al crearlo
-no tengo valor x defecto para el / kill ni para ninguna interrupciÃ³n
-lo definÃ­s en el test
-o sumÃ¡s un mÃ©todo para agregarlo (add del diccionario)
+interruption_manager -> está vacío al crearlo
+no tengo valor x defecto para el / kill ni para ninguna interrupción
+lo definís en el test
+o sumás un método para agregarlo (add del diccionario)
+
 
