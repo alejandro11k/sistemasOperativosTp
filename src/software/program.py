@@ -16,4 +16,11 @@ class Program:
     def isLastInstuction(self):
         cantidadDeInstruccionesPorEjecutar = self.instructionsList.size()
         return (cantidadDeInstruccionesPorEjecutar==1)
+    
+    def compileInstructions(self,instructions):
+        #LIFO!
+        size=len(instructions)
+        while not size==0:
+            self.instructionsList.queue(instructions.pop)
+            size=size-1
         

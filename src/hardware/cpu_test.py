@@ -39,11 +39,14 @@ class CpuTest(unittest.TestCase):
         self.shell = Shell(self.programLoader)
         
         #crep un programa
-        self.instruction = Instruction(InstructionType.instructionEND)
-        program = Program("empty_program")
+        self.instruction1 = Instruction(InstructionType.instructionEND)
+        instructions = []
+        instructions.append(self.instruction1)
+        self.program = Program("empty_program")
+        self.program.compileInstructions(instructions)
         
         #guardo el programa en el disco rigido
-        self.hardDisk.save(program)
+        self.hardDisk.save(self.program)
      
         
     def test_ejecutoUnProgramaConUnaUnicaInstruccionDeEnd(self):

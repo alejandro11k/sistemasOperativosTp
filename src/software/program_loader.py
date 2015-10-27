@@ -32,7 +32,7 @@ class ProgramLoader:
         instructionToDump = program.nextInstruction()
         self.memory.put(instructionToDump)
             
-        pcb.lastDirection = self.memory.lastFreeDirection
+        pcb.lastDirection = self.memory.firstFreeDirection
     
     def pcbCreate(self):
         return PCB(self.pcbTable.nextFreeId())

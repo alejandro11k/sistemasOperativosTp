@@ -7,11 +7,11 @@ class MyQueue:
         
     def firstQ(self):
         #si no tengo elementos rompe
-        self.list.pop(0)
         self.elements = self.elements - 1
+        return self.list.pop(0)
         
     def queue(self,element):
-        self.append(element)
+        self.list.append(element)
         self.elements = self.elements + 1
         
     def isEmpty(self):
