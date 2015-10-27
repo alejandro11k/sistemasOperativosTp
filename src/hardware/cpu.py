@@ -11,7 +11,7 @@ class CPU:
         self.result = None
         self.instruction = None
         self.interruptorManager = interruptorManager
-        self.timeOutLimit = 5
+        self.quantum = 0
         self.irq = None
 
     def fetch(self):
@@ -33,14 +33,15 @@ class CPU:
         self.result = self.pcb.programCounter + self.pcb.baseDirection 
         return self.result
 
-    def setPCB(self,pcb):
+    def setPCB(self,pcb,quantum):
 
         self.pcb=pcb
+        self.quantum = quantum
 
     def incrementPC(self):
 
         self.programCounter = self.pcb.programCounter      
-        self.timeOutLimit + self.timeOutLimit - 1
+        self.quantum + self.quantum - 1
         
         #revisa si el programa termino
         if (self.pcb.instructions==self.pcb.programCounter): ## no tiene mas instrucciones
@@ -49,7 +50,7 @@ class CPU:
             self.interruptorManager.handle(self.irq)
         
         #revisa si se consumio los ciclos maximos para un mismo proceso
-        if (self.timeOutLimit==1): 
+        if (self.quantum==1): 
             self.programCounter=0
             #self.interruptorManager.register("TIMEOUT_INTERRUPT", TimeOutHandler())
           

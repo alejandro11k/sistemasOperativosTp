@@ -1,7 +1,13 @@
 from software.myQueue import MyQueue
+from software.pcb import PCB
 
-class QReady(MyQueue):
+class QReady():
 
     def __init__(self):
-        MyQueue.__init__()
+        self.pcbs = []
         
+    def queue(self,pcb):
+        self.pcbs = pcb
+    
+    def getFirst(self):
+        return self.pcbs.pop()

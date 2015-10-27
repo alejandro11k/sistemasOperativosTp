@@ -1,9 +1,6 @@
 class PCBTable:
 
     def __init__(self):
-        '''
-        Constructor
-        '''
         self.pcbs = []
         
         

@@ -35,6 +35,6 @@ class ProgramLoader:
         pcb.lastDirection = self.memory.lastFreeDirection
     
     def pcbCreate(self):
-        self.programCopyPCB = PCB(self.pcbTable.nextFreeId())
+        return PCB(self.pcbTable.nextFreeId())
         
         
