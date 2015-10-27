@@ -17,17 +17,17 @@ class CPU:
     def fetch(self):
         self.result = self.calculateDirection()
         self.instruction = self.memory.get(self.result)
+        
         # IO?
-        
         # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
-        # self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
         
-        ## si no es de IO la proceso
-        
-        ## despues de procesar la instruccion
-        self.pcb.incrementPC()
-        
-        self.incrementPC()
+        if self.instruction.instructionType==InstructionIO:
+            pass
+            #self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
+        else:
+            ## si no es de IO la proceso
+            ## despues de procesar la instruccion
+            self.process()
 
     def calculateDirection(self):
         self.result = self.pcb.programCounter + self.pcb.baseDirection 
@@ -38,25 +38,20 @@ class CPU:
         self.pcb=pcb
         self.quantum = quantum
 
-    def incrementPC(self):
-
-        self.programCounter = self.pcb.programCounter      
-        self.quantum + self.quantum - 1
-        
-        #revisa si el programa termino
-        if (self.pcb.instructions==self.pcb.programCounter): ## no tiene mas instrucciones
-            self.programCounter=0
-            self.irq = Irq(IrqType.irqKILL,self.pcb)
-            self.interruptorManager.handle(self.irq)
+    def process(self):
         
         #revisa si se consumio los ciclos maximos para un mismo proceso
-        if (self.quantum==1): 
-            self.programCounter=0
+        if self.quantum==0:
+            pass
             #self.interruptorManager.register("TIMEOUT_INTERRUPT", TimeOutHandler())
-          
-        #prosigue con la proxima instruccion, si no se lanzo alguna interrupcion  
-        if (self.programCounter!=0):
-            self.fetch() ## esto lo hace otrho componente
 
-
+        #revisa si el programa va a ejecutar su ultima instruccion
+        if self.instruction.instructionType==InstructionEND: ## no tiene mas instrucciones
+            self.irq = Irq(IrqType.irqKILL,self.pcb)
+            self.interruptorManager.handle(self.irq)
+        #ejecuta la instruccion
+        else:
+            self.instruction.process()
+            self.pcb.incrementProgramCounter()  
+            self.quantum + self.quantum - 1
 
