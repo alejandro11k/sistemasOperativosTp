@@ -7,12 +7,13 @@ class Program:
     '''
     
     def __init__(self,name):
-        self.name = None
+        self.name = name
         self.instructionsList = MyQueue()
         
     def nextInstruction(self):
         return self.instructionsList.firstQ()
     
     def isLastInstuction(self):
-        return (self.instructionsList.elements() == 1)
+        cantidadDeInstruccionesPorEjecutar = self.instructionsList.size()
+        return (cantidadDeInstruccionesPorEjecutar==1)
         

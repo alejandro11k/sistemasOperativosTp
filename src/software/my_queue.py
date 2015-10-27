@@ -17,6 +17,6 @@ class MyQueue:
     def isEmpty(self):
         return (self.elements == 0)
     
-    def elements(self):
+    def size(self):
         return self.elements
         

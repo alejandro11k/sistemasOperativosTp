@@ -26,12 +26,12 @@ class ProgramLoader:
         pcb.baseDirection = self.memory.firstFreeDirection
         
         while(not program.isLastInstuction()):
-            self.instructionToDump(program.nextInstruction())
-            self.memory.put(self.instructionToDump)
-            
-        self.instructionToDump(program.nextInstruction())
-        self.memory.put(self.instructionToDump)
+            instructionToDump = program.nextInstruction()
+            self.memory.put(instructionToDump)
         
+        instructionToDump = program.nextInstruction()
+        self.memory.put(instructionToDump)
+            
         pcb.lastDirection = self.memory.lastFreeDirection
     
     def pcbCreate(self):
