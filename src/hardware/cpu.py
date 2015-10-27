@@ -2,36 +2,47 @@
 #from pcb import *
 from irq import Irq
 from irq_type import IrqType
+from software.instruction_type import InstructionType
+from software.instruction import Instruction
 
 class CPU:
 
     def __init__(self, memory, interruptorManager):
         self.memory = memory
         self.pcb = None
-        self.result = None
         self.instruction = None
         self.interruptorManager = interruptorManager
         self.quantum = 0
         self.irq = None
 
     def fetch(self):
-        self.result = self.calculateDirection()
-        self.instruction = self.memory.get(self.result)
         
-        # IO?
-        # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
+        # tengo que revisar si hay pcb!
         
-        if self.instruction.instructionType==InstructionIO:
+        if self.pcb==None:
             pass
-            #self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
+            
         else:
-            ## si no es de IO la proceso
-            ## despues de procesar la instruccion
-            self.process()
+            
+            result = self.calculateDirection()
+            print(result)
+            self.instruction = self.memory.get(result)
+            
+            # IO?
+            # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
+            
+            print(self.instruction)
+            if self.instruction.instructionType==InstructionType.instructionIO:
+                pass
+                #self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
+            else:
+                ## si no es de IO la proceso
+                ## despues de procesar la instruccion
+                self.process()
 
     def calculateDirection(self):
-        self.result = self.pcb.programCounter + self.pcb.baseDirection 
-        return self.result
+        result = self.pcb.programCounter + self.pcb.baseDirection 
+        return result
 
     def setPCB(self,pcb,quantum):
 
@@ -46,7 +57,7 @@ class CPU:
             #self.interruptorManager.register("TIMEOUT_INTERRUPT", TimeOutHandler())
 
         #revisa si el programa va a ejecutar su ultima instruccion
-        if self.instruction.instructionType==InstructionEND: ## no tiene mas instrucciones
+        if self.instruction.instructionType==InstructionType.instructionEND: ## no tiene mas instrucciones
             self.irq = Irq(IrqType.irqKILL,self.pcb)
             self.interruptorManager.handle(self.irq)
         #ejecuta la instruccion

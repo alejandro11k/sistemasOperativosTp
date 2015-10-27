@@ -21,6 +21,6 @@ class Program:
         #LIFO!
         size=len(instructions)
         while not size==0:
-            self.instructionsList.queue(instructions.pop)
+            self.instructionsList.queue(instructions.pop(0))
             size=size-1
         

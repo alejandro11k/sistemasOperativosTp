@@ -11,6 +11,7 @@ class Memory:
 
     def get(self, direction):
 
+        print(direction)
         return self.memory[direction]
 
     

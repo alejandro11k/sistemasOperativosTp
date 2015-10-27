@@ -1,5 +1,5 @@
-from pcb import PCB
-from q_ready import QReady
+from software.pcb import PCB
+from software.q_ready import QReady
 from hardware.cpu import CPU
 
 class Schedule:
@@ -9,7 +9,7 @@ class Schedule:
         self.cpu = cpu
         
     def roundRobinQuantum(self,quantum):
-        nextPCB = self.qready.getfirst()
+        nextPCB = self.qready.getFirst()
         self.cpu.setPCB(nextPCB,quantum)
         
         

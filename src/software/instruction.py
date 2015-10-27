@@ -1,10 +1,9 @@
 
 class Instruction:
     
-    def __init__(self,type):
-        self.instructionType = type
+    def __init__(self,instructionType):
+        self.instructionType = instructionType
         
-
     def process(self):
         pass
     
