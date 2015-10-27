@@ -7,11 +7,11 @@ class Memory:
     def put(self, instruction):
 
         self.memory[self.firstFreeDirection] = instruction
-        self.direction = self.firstFreeDirection + 1
+        self.firstFreeDirection = self.firstFreeDirection + 1
 
     def get(self, direction):
 
-        print(direction)
-        return self.memory[direction]
+        value = self.memory[direction]
+        return value
 
     

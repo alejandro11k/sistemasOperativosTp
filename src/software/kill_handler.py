@@ -10,4 +10,4 @@ class KillHandler:
         self.pcb = pcb
 
     ## pseudocodigo que hace.
-
+        print("kill handle in action!")

@@ -23,9 +23,11 @@ class ProgramLoader:
         
         
     def memoryDump(self, program, pcb):
+       
         pcb.baseDirection = self.memory.firstFreeDirection
-        
+    
         while(not program.isLastInstuction()):
+            
             instructionToDump = program.nextInstruction()
             self.memory.put(instructionToDump)
         

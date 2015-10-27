@@ -44,8 +44,8 @@ class CpuTest(unittest.TestCase):
         self.instruction0 = Instruction(InstructionType.instructionEND)
         self.instruction1 = Instruction(InstructionType.instructionCPU)
         instructions = []
-        instructions.append(self.instruction0)
-        instructions.append(self.instruction1) #revisar orden!
+        instructions.append(self.instruction1)
+        instructions.append(self.instruction0) #revisar orden!
         
         self.program = Program("empty_program")
         self.program.compileInstructions(instructions)
@@ -57,6 +57,7 @@ class CpuTest(unittest.TestCase):
     def test_ejecutoUnProgramaConUnaUnicaInstruccionDeEnd(self):
         self.shell.run("empty_program")
         self.schedule.roundRobinQuantum(10)
+        self.cpu.fetch()
         self.cpu.fetch()
         self.assertTrue(True)
 

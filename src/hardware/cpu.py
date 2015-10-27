@@ -25,13 +25,11 @@ class CPU:
         else:
             
             result = self.calculateDirection()
-            print(result)
             self.instruction = self.memory.get(result)
             
             # IO?
             # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
             
-            print(self.instruction)
             if self.instruction.instructionType==InstructionType.instructionIO:
                 pass
                 #self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
@@ -63,6 +61,7 @@ class CPU:
         #ejecuta la instruccion
         else:
             self.instruction.process()
+            print("CPU:prosesando instruccion")
             self.pcb.incrementProgramCounter()  
             self.quantum + self.quantum - 1
 
