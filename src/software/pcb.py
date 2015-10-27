@@ -11,7 +11,7 @@ class PCB:
         self.state = ProcessStates.processReady
         self.lastDirection = None
 
-    def incrementPC(self):
+    def incrementProgramCounter(self):
         self.programCounter = self.programCounter + 1
         
     def fillDirections(self, baseDirection, lastDirection):
