@@ -1,4 +1,4 @@
-from software.myQueue import MyQueue
+from software.my_queue import MyQueue
 from software.pcb import PCB
 
 class QReady():

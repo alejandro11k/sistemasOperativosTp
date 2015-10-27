@@ -2,8 +2,8 @@ from hardware.hard_disk import HardDisk
 from hardware.memory import Memory
 from software.program import Program
 from software.pcb import PCB
-from software.pcbTable import PCBTable
-from software.processStates import ProcessStates
+from software.pcb_table import PCBTable
+from software.process_states import ProcessStates
 
 class ProgramLoader:
     

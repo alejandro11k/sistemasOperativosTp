@@ -1,5 +1,4 @@
-from software.processStates import ProcessStates 
-from pickle import NONE
+from software.process_states import ProcessStates 
 
 
 class PCB:

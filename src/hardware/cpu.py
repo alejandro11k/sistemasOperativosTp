@@ -1,7 +1,7 @@
 #from memory import *
 #from pcb import *
-from hardware.irq import Irq
-from hardware.irqType import IrqType
+from irq import Irq
+from irq_type import IrqType
 
 class CPU:
 

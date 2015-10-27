@@ -1,9 +1,19 @@
 import unittest
 
-from hardware.memory import Memory
-from hardware.cpu import CPU
-from software.interruptionManager import InterruptionManager
+from memory import Memory
+from cpu import CPU
+from hardware.hard_disk import HardDisk
+
+from software.interruption_manager import InterruptionManager
 from software.pcb import PCB
+from software.instruction import Instruction
+from software.instruction_type import InstructionType
+from software.program import Program
+from software.shell import Shell
+from software.program_loader import ProgramLoader
+from software.pcb_table import PCBTable
+from software.q_ready import QReady
+
 
 class CpuTest(unittest.TestCase):
 
@@ -13,25 +23,32 @@ class CpuTest(unittest.TestCase):
     '''
 
     def setUp(self):
-        self.pcb = PCB(0,2)
-
-        self.memory = Memory()
-        self.memory.put(0,"primer instruccion")
-        self.memory.put(1,"segunda instruccion")
 
         self.im = InterruptionManager()
 
+        #hardware
+        #construyo el ordenador
+        self.hardDisk = HardDisk()
+        self.memory = Memory()
         self.cpu = CPU(self.memory,self.im)
+
+        #software
+        self.pcbTable = PCBTable()
+        self.qReady = QReady()
+        self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady)
+        self.shell = Shell(self.programLoader)
         
-    def test_fecht(self):
+        #crep un programa
+        self.instruction = Instruction(InstructionType.instructionEND)
+        program = Program("empty_program")
+        
+        #guardo el programa en el disco rigido
+        self.hardDisk.save(program)
+     
+        
+    def test_ejecutoUnProgramaConUnaUnicaInstruccionDeEnd(self):
+        self.shell.run("empty_program")
         self.assertTrue(True)
-
-    #ejecuto un programa que termina
-    def test_incrementPC(self):
-        self.cpu.setPCB(self.pcb)
-        self.assertEquals(self.cpu.programCounter,0)
-
-
 
 #unittest.main(verbosity=2)
 
