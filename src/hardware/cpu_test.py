@@ -5,7 +5,7 @@ from hardware.cpu import CPU
 from software.interruptionManager import InterruptionManager
 from software.pcb import PCB
 
-class TestCPU(unittest.TestCase):
+class CpuTest(unittest.TestCase):
 
     '''
     este test esta desactualizado, y las clases nuevas estan
