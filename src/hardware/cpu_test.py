@@ -15,6 +15,10 @@ from software.pcb_table import PCBTable
 from software.q_ready import QReady
 from software.schedule import Schedule
 from software.handler_data import HandlerData
+from software.handler_kill import HandlerKill
+from software.handler_time_out import HandlerTimeOut
+from software.handler_io import HandlerIO
+from hardware.irq_type import IrqType
 
 
 class CpuTest(unittest.TestCase):
@@ -25,29 +29,47 @@ class CpuTest(unittest.TestCase):
     '''
 
     def setUp(self):
-
-        self.handler_data = HandlerData()
-        self.interruptionManager = InterruptionManager(self.handler_data)
+  
 
         #hardware
         #construyo el ordenador
         self.hardDisk = HardDisk()
         self.memory = Memory()
-        self.cpu = CPU(self.memory,self.interruptionManager)
+        self.cpu = CPU(self.memory)
 
         #kernel
-        self.pcbTable = PCBTable()
         self.qReady = QReady()
+        
+        self.irqTypeKill = IrqType.irqKILL
+        self.handlerKill = HandlerKill(self.cpu)
+        
+        self.irqTypeTimeOut = IrqType.irqTIME_OUT
+        self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
+        
+        self.irqTypeIO = IrqType.irqIO
+        self.handlerIO = HandlerIO()
+        
+        self.handler_data = HandlerData()
+        self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
+        self.handler_data.setUp(self.irqTypeTimeOut, self.handlerTimeOut)
+        self.handler_data.setUp(self.irqTypeIO, self.handlerIO)
+        self.interruptionManager = InterruptionManager(self.handler_data)
+        self.cpu.setUp(self.interruptionManager)
+        
+        self.pcbTable = PCBTable()
+        
         self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady)
         self.shell = Shell(self.programLoader)
         self.schedule = Schedule(self.qReady,self.cpu)
         
         #crep un programa
-        self.instruction0 = Instruction(InstructionType.instructionEND)
-        self.instruction1 = Instruction(InstructionType.instructionCPU)
+        self.instructionEnd = Instruction(InstructionType.instructionEND)
+        self.instructionCpu = Instruction(InstructionType.instructionCPU)
         instructions = []
-        instructions.append(self.instruction1)
-        instructions.append(self.instruction0) #revisar orden!
+        instructions.append(self.instructionCpu)
+        instructions.append(self.instructionCpu)
+        instructions.append(self.instructionCpu)
+        instructions.append(self.instructionEnd)
         
         self.program = Program("empty_program")
         self.program.compileInstructions(instructions)
@@ -58,7 +80,13 @@ class CpuTest(unittest.TestCase):
         
     def test_ejecutoUnProgramaConUnaUnicaInstruccionDeEnd(self):
         self.shell.run("empty_program")
-        self.schedule.roundRobinQuantum(10)
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
         self.cpu.fetch()
         self.cpu.fetch()
         self.assertTrue(True)

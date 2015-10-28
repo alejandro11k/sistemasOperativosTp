@@ -14,7 +14,6 @@ class InterruptionManager:
     def register(self,irq, handler):
 
         handler.run(irq)
-        
 
 """
 KILL_INTERRUPT="#KILL"

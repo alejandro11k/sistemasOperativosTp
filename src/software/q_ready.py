@@ -7,8 +7,9 @@ class QReady():
         self.pcbs = []
         
     def queue(self,pcb):
-        self.pcbs.insert(0, pcb)
+        self.pcbs.append(pcb)
     
     def getFirst(self):
+        #empty pcbs broke
         pcb = self.pcbs.pop(0)
         return pcb

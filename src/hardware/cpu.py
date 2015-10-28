@@ -7,21 +7,37 @@ from software.instruction import Instruction
 
 class CPU:
 
-    def __init__(self, memory, interruptorManager):
+    def __init__(self, memory):
         self.memory = memory
+        
         self.pcb = None
         self.instruction = None
-        self.interruptorManager = interruptorManager
-        self.quantum = 0
         self.irq = None
+        
+        self.quantum = 0
+        
+        self.interruptorManager = None
 
+    def setUp(self,interruptorManager):
+        
+        self.interruptorManager = interruptorManager
+        
     def fetch(self):
         
         # tengo que revisar si hay pcb!
+        #if self.pcb==None:
         
-        if self.pcb==None:
-            pass
-            
+        #revisa si se consumio los ciclos maximos para un mismo proceso
+        # si el quantum es 0 es porque no hay ningun pcb cargado!
+        
+        if self.quantum==0:
+            if self.pcb==None:
+                print("CPU:idle")
+            else:
+                #self.interruptorManager.register("TIMEOUT_INTERRUPT", TimeOutHandler())
+                self.irq = Irq(IrqType.irqTIME_OUT,self.pcb)
+                self.interruptorManager.handle(self.irq)
+                
         else:
             
             result = self.calculateDirection()
@@ -48,11 +64,6 @@ class CPU:
         self.quantum = quantum
 
     def process(self):
-        
-        #revisa si se consumio los ciclos maximos para un mismo proceso
-        if self.quantum==0:
-            pass
-            #self.interruptorManager.register("TIMEOUT_INTERRUPT", TimeOutHandler())
 
         #revisa si el programa va a ejecutar su ultima instruccion
         if self.instruction.instructionType==InstructionType.instructionEND: ## no tiene mas instrucciones
