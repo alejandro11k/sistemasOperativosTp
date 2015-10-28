@@ -14,6 +14,7 @@ from software.program_loader import ProgramLoader
 from software.pcb_table import PCBTable
 from software.q_ready import QReady
 from software.schedule import Schedule
+from software.handler_data import HandlerData
 
 
 class CpuTest(unittest.TestCase):
@@ -25,13 +26,14 @@ class CpuTest(unittest.TestCase):
 
     def setUp(self):
 
-        self.im = InterruptionManager()
+        self.handler_data = HandlerData()
+        self.interruptionManager = InterruptionManager(self.handler_data)
 
         #hardware
         #construyo el ordenador
         self.hardDisk = HardDisk()
         self.memory = Memory()
-        self.cpu = CPU(self.memory,self.im)
+        self.cpu = CPU(self.memory,self.interruptionManager)
 
         #kernel
         self.pcbTable = PCBTable()
