@@ -80,9 +80,19 @@ class CpuTest(unittest.TestCase):
         
         #guardo el programa en el disco rigido
         self.hardDisk.save(self.program)
-     
         
-    def test_ejecutoUnProgramaConUnaUnicaInstruccionDeEnd(self):
+        #creo otro programa
+        instructions = []
+        self.instructionIO = Instruction(InstructionType.instructionIO)
+        instructions.append(self.instructionCpu)
+        
+        self.programIO = Program("io_program")
+        self.program.compileInstructions(instructions)
+        instructions.append(self.instructionEnd)
+        
+        self.hardDisk.save(self.programIO)
+        
+    def pruebaDeEjecucion1(self):
         self.shell.run("empty_program")
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
@@ -92,6 +102,13 @@ class CpuTest(unittest.TestCase):
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
         self.cpu.fetch()
+        self.cpu.fetch()
+        self.assertTrue(True)
+        
+    def pruebaDeEjecucion2(self):
+        #programa con instruccion de io
+        self.shell.run("io_program")
+        self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
         self.assertTrue(True)
 

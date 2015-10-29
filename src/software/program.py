@@ -18,7 +18,7 @@ class Program:
         return (cantidadDeInstruccionesPorEjecutar==1)
     
     def compileInstructions(self,instructions):
-        #LIFO!
+        #la ultima instruccion debe ser la de END!
         size=len(instructions)
         while not size==0:
             self.instructionsList.queue(instructions.pop(0))
