@@ -1,5 +1,3 @@
-#from memory import *
-#from pcb import *
 from irq import Irq
 from irq_type import IrqType
 from software.instruction_type import InstructionType
@@ -47,7 +45,8 @@ class CPU:
             # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
             
             if self.instruction.instructionType==InstructionType.instructionIO:
-                pass
+                self.irq = Irq(IrqType.irqIO,self.pcb)
+                self.interruptorManager.handle(self.irq)
                 #self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
             else:
                 ## si no es de IO la proceso

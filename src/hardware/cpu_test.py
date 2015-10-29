@@ -19,6 +19,7 @@ from software.handler_kill import HandlerKill
 from software.handler_time_out import HandlerTimeOut
 from software.handler_io import HandlerIO
 from hardware.irq_type import IrqType
+from software.q_io import QIO
 
 
 class CpuTest(unittest.TestCase):
@@ -39,6 +40,7 @@ class CpuTest(unittest.TestCase):
 
         #kernel
         self.qReady = QReady()
+        self.qIO = QIO()
         
         self.irqTypeKill = IrqType.irqKILL
         self.handlerKill = HandlerKill(self.cpu)
@@ -48,6 +50,8 @@ class CpuTest(unittest.TestCase):
         
         self.irqTypeIO = IrqType.irqIO
         self.handlerIO = HandlerIO()
+        
+        self.handlerIO.addDevice(self.irqTypeIO,self.qIO)
         
         self.handler_data = HandlerData()
         self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
