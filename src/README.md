@@ -1,27 +1,24 @@
 Pendientes del TP
 
-Shell
-Disco
-Programa
-Cola de ready, waiting
-Schedule 
-- Falta que el pcb saque de la cola de  ready y se lo de a la cpu
+next:
+correr varios programas de CPU ok
+actualizar la pcbTable! toDo
 
-"un test que deberían hacer:
-agarrá un programa, una instrucción de I/O 
-dáselo al cpu
+io:
+ioDeviceCpu
+correr un programa q contenga una instruccion de io (error al buscar la instruccion en memoria?)
+
+"un test que deberï¿½an hacer:
+agarrï¿½ un programa, una instrucciï¿½n de I/O 
+dï¿½selo al cpu
 cpu.run
-y hacés un assert que levante la interrupción de I/O en la cola de interrupciones" (esto lo dijo el ayudante y lo copié como pude.
+y hacï¿½s un assert que levante la interrupciï¿½n de I/O en la cola de interrupciones" (esto lo dijo el ayudante y lo copiï¿½ como pude.
 
 Correcciones del profe cuando vino a ver nuestro TP
 
 clase.variable para interrupciones
 NO USAR STRINGS
-ponerlo en irq (más fácil para cambiar)
+ponerlo en irq (mï¿½s fï¿½cil para cambiar)
 
-interruption_manager -> está vacío al crearlo
-no tengo valor x defecto para el / kill ni para ninguna interrupción
-lo definís en el test
-o sumás un método para agregarlo (add del diccionario)
 
 

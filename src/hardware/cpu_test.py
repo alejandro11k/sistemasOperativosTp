@@ -111,6 +111,22 @@ class CpuTest(unittest.TestCase):
         self.shell.run("empty_program")
         self.shell.run("empty_program")
         self.shell.run("empty_program")
+        
+        self.cpu.fetch()
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.cpu.fetch()
+        
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.cpu.fetch()
+        
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.cpu.fetch()
             
         self.assertTrue(True)
         
