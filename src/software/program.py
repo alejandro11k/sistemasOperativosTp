@@ -1,5 +1,4 @@
-from software.my_queue import MyQueue
-
+from dis import Instruction
 class Program:
     
     '''
@@ -8,19 +7,18 @@ class Program:
     
     def __init__(self,name):
         self.name = name
-        self.instructionsList = MyQueue()
+        self.instructionsList = {}
         
-    def nextInstruction(self):
-        return self.instructionsList.firstQ()
+    def getInstruction(self,n):
+        return self.instructionsList[n]
     
-    def isLastInstuction(self):
-        cantidadDeInstruccionesPorEjecutar = self.instructionsList.size()
-        return (cantidadDeInstruccionesPorEjecutar==1)
+    def programLength(self):
+        return len(self.instructionsList)
     
     def compileInstructions(self,instructions):
         #la ultima instruccion debe ser la de END!
-        size=len(instructions)
-        while not size==0:
-            self.instructionsList.queue(instructions.pop(0))
-            size=size-1
+        size = len(instructions)
+        for n in range(size):
+            self.instructionsList[n]=(instructions.pop(0))
+            
         

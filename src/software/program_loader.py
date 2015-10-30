@@ -26,13 +26,17 @@ class ProgramLoader:
        
         pcb.baseDirection = self.memory.firstFreeDirection
     
-        while(not program.isLastInstuction()):
+        '''while(not program.isLastInstuction()):
             
             instructionToDump = program.nextInstruction()
             self.memory.put(instructionToDump)
         
         instructionToDump = program.nextInstruction()
-        self.memory.put(instructionToDump)
+        self.memory.put(instructionToDump)'''
+        
+        for n in range(program.programLength()):
+            instructionToDump = program.getInstruction(n)
+            self.memory.put(instructionToDump)
             
         pcb.lastDirection = self.memory.firstFreeDirection
     

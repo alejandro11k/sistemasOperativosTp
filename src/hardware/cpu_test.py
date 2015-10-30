@@ -93,6 +93,7 @@ class CpuTest(unittest.TestCase):
         self.hardDisk.save(self.programIO)
         
     def pruebaDeEjecucion1(self):
+        
         self.shell.run("empty_program")
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
@@ -103,9 +104,17 @@ class CpuTest(unittest.TestCase):
         self.cpu.fetch()
         self.cpu.fetch()
         self.cpu.fetch()
+        
         self.assertTrue(True)
         
     def pruebaDeEjecucion2(self):
+        self.shell.run("empty_program")
+        self.shell.run("empty_program")
+        self.shell.run("empty_program")
+            
+        self.assertTrue(True)
+        
+    def pruebaDeEjecucion3(self):
         #programa con instruccion de io
         self.shell.run("io_program")
         self.schedule.roundRobinQuantum(2)
