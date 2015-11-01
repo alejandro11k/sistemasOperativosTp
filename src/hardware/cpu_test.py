@@ -41,9 +41,10 @@ class CpuTest(unittest.TestCase):
         #kernel
         self.qReady = QReady()
         self.qIO = QIO()
+        self.pcbTable = PCBTable()
         
         self.irqTypeKill = IrqType.irqKILL
-        self.handlerKill = HandlerKill(self.cpu)
+        self.handlerKill = HandlerKill(self.cpu,self.pcbTable)
         
         self.irqTypeTimeOut = IrqType.irqTIME_OUT
         self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
@@ -60,7 +61,7 @@ class CpuTest(unittest.TestCase):
         self.interruptionManager = InterruptionManager(self.handler_data)
         self.cpu.setUp(self.interruptionManager)
         
-        self.pcbTable = PCBTable()
+        
         
         self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady)
         self.shell = Shell(self.programLoader)
@@ -108,25 +109,67 @@ class CpuTest(unittest.TestCase):
         self.assertTrue(True)
         
     def pruebaDeEjecucion2(self):
+        
+        self.shell.ps()
+        
         self.shell.run("empty_program")
         self.shell.run("empty_program")
         self.shell.run("empty_program")
         
+        self.shell.ps()
+                      
         self.cpu.fetch()
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        
+        self.shell.ps()
+        
+        self.cpu.fetch()
+        self.cpu.fetch()
+        
+        self.shell.ps()
+        
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        
+        self.shell.ps()
+        
+        self.cpu.fetch()
+        self.cpu.fetch()
+        
+        self.shell.ps()
+        
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
         self.cpu.fetch()
         self.cpu.fetch()
         
+        self.shell.ps()
+        
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
+        
+        self.shell.ps()
+        
         self.cpu.fetch()
         self.cpu.fetch()
         
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
+        
+        self.shell.ps()
+        
         self.cpu.fetch()
         self.cpu.fetch()
+        
+        self.shell.ps()
+        
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.cpu.fetch()
+        self.cpu.fetch()
+        
+        self.shell.ps()
             
         self.assertTrue(True)
         

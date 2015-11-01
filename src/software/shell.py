@@ -6,11 +6,16 @@ class Shell:
         self.programLoader = programLoader
               
     def ps(self):
-        pass
         #TODO
-        #Mostrar todos los procesos y sus estados.
+        #Mostrar todos los procesos y sus estados
+        self.programLoader.printPcbTable()
+        
         
     def run(self, nameProgram):
         self.programLoader.load(nameProgram)
+        
+    def ls(self):
+        #Muestra los programas que se encuentran en el disco rigido
+        pass
     
     

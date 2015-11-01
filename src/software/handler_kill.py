@@ -1,8 +1,9 @@
 class HandlerKill:
 
-    def __init__ (self,cpu):
+    def __init__ (self,cpu,pcbtable):
         self.pcb = None
         self.cpu = cpu
+        self.pcbtable = pcbtable
 
     def run(self,irq):
         self.handle(irq.pcb)
@@ -22,3 +23,5 @@ class HandlerKill:
             self.cpu.instruction = None
             self.cpu.irq = None
             self.cpu.quantum = 0
+            
+            self.pcbtable.remove(self.pcb)

@@ -43,4 +43,6 @@ class ProgramLoader:
     def pcbCreate(self):
         return PCB(self.pcbTable.nextFreeId())
         
+    def printPcbTable(self):
+        self.pcbTable.printPcbTable()
         

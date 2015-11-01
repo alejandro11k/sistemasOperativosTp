@@ -1,5 +1,6 @@
 from hardware.cpu import CPU
 from software.q_ready import QReady
+from software.process_states import ProcessStates 
 
 class HandlerTimeOut:
 
@@ -24,5 +25,7 @@ class HandlerTimeOut:
             self.cpu.pcb = None
             self.cpu.instruction = None
             self.cpu.irq = None
+            
+            self.pcb.state = ProcessStates.processReady
             
             self.qready.queue(pcb)
