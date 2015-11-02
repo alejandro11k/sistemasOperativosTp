@@ -19,7 +19,7 @@ from software.handler_kill import HandlerKill
 from software.handler_time_out import HandlerTimeOut
 from software.handler_io import HandlerIO
 from hardware.irq_type import IrqType
-from software.q_io import QIO
+from software.q_io import QIo
 
 
 class CpuTest(unittest.TestCase):
@@ -40,7 +40,7 @@ class CpuTest(unittest.TestCase):
 
         #kernel
         self.qReady = QReady()
-        self.qIO = QIO()
+        self.qIo = QIo()
         self.pcbTable = PCBTable()
         
         self.irqTypeKill = IrqType.irqKILL
@@ -50,9 +50,9 @@ class CpuTest(unittest.TestCase):
         self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
         
         self.irqTypeIO = IrqType.irqIO
-        self.handlerIO = HandlerIO()
+        self.handlerIO = HandlerIO(self.cpu)
         
-        self.handlerIO.addDevice(self.irqTypeIO,self.qIO)
+        self.handlerIO.addDevice(self.irqTypeIO,self.qIo)
         
         self.handler_data = HandlerData()
         self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
@@ -86,10 +86,11 @@ class CpuTest(unittest.TestCase):
         instructions = []
         self.instructionIO = Instruction(InstructionType.instructionIO)
         instructions.append(self.instructionCpu)
+        instructions.append(self.instructionIO)
+        instructions.append(self.instructionEnd)
         
         self.programIO = Program("io_program")
-        self.program.compileInstructions(instructions)
-        instructions.append(self.instructionEnd)
+        self.programIO.compileInstructions(instructions)
         
         self.hardDisk.save(self.programIO)
         
@@ -178,6 +179,12 @@ class CpuTest(unittest.TestCase):
         self.shell.run("io_program")
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
+        self.shell.ps()
+        self.cpu.fetch()
+        self.shell.ps()
+        self.cpu.fetch()
+        
+        self.shell.ps()
         self.assertTrue(True)
 
 #unittest.main(verbosity=2)

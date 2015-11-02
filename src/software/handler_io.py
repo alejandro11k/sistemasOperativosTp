@@ -1,8 +1,13 @@
+from software.process_states import ProcessStates 
+
 class HandlerIO:
 
-    def __init__ (self):
+    def __init__ (self,cpu):
         self.pcb = None
-        self.ioQs = {}
+        self.ioQueues = {}
+        self.cpu = cpu
+        #only one io devise at the moment
+        self.ioQueue = None
 
     def run(self,irq):
         self.handle(irq.pcb)
@@ -18,15 +23,19 @@ class HandlerIO:
         
         if not (self.cpu.irq == None):
             self.cpu.pcb = None
-            ioDev = self.cpu.instruction = None
+            ioDev = self.cpu.instruction
+            self.cpu.instruction = None
             self.cpu.irq = None
+            self.cpu.quantum = 0
             
+            self.pcb.state = ProcessStates.processWaiting
             ## envia a la cola d io
             ## la cola de io correspondiente a esa instruccion
             ## por ahora solo hay una unica io
             
-            self.qIO[ioDev.instructionType.value].queue(pcb)
+            #self.ioQueues[ioDev.instructionType.name].queue(pcb)
+            self.ioQueue.queue(pcb)
             
-    def addDevice(self,instructionType,qIO):
-        self.ioQs[instructionType.value]=qIO
-        
+    def addDevice(self,instructionType,ioQ):
+        #self.ioQueues[instructionType.name]=ioQ
+        self.ioQueue=ioQ

@@ -1,7 +1,7 @@
 from software.my_queue import MyQueue
 from software.pcb import PCB
 
-class QIO():
+class QIo():
 
     def __init__(self):
         self.pcbs = []
