@@ -7,3 +7,4 @@ class ProcessStates(Enum):
     processRunning = 3
     processWaiting = 4
     #processTermanited = 5
+    processRunningIO = 6

@@ -26,6 +26,6 @@ class HandlerTimeOut:
             self.cpu.instruction = None
             self.cpu.irq = None
             
-            self.pcb.state = ProcessStates.processWaiting
+            self.pcb.state = ProcessStates.processReady
             
             self.qready.queue(pcb)

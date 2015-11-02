@@ -1,9 +1,7 @@
-from hardware.cpu import CPU
-
 class Clock:
     
-    def __init__(self,cpu):
-        self.cpu = cpu
+    def __init__(self,device):
+        self.device = device
         
     def click(self):
-        self.cpu.fetch()
+        self.device.fetch()

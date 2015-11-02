@@ -2,12 +2,13 @@ from software.process_states import ProcessStates
 
 class HandlerIO:
 
-    def __init__ (self,cpu):
+    def __init__ (self,cpu,qready):
         self.pcb = None
         self.ioQueues = {}
         self.cpu = cpu
         #only one io devise at the moment
         self.ioQueue = None
+        self.qready = qready
 
     def run(self,irq):
         self.handle(irq.pcb)
@@ -19,9 +20,18 @@ class HandlerIO:
     ## limpia la cpu
     ## envia el pcb a la cola de io
     
-        print("io handle in action!")
         
-        if not (self.cpu.irq == None):
+        if pcb.state==ProcessStates.processRunningIO:
+            print("io handle (from cpu) in action!")
+            
+            self.pcb.state = ProcessStates.processReady
+            
+            self.qready.queue(pcb)
+        
+        if pcb.state==ProcessStates.processRunning and not (self.cpu.irq == None):
+            
+            print("io handle (from cpu) in action!")
+            
             self.cpu.pcb = None
             ioDev = self.cpu.instruction
             self.cpu.instruction = None

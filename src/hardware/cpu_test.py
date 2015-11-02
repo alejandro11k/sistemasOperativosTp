@@ -20,6 +20,7 @@ from software.handler_time_out import HandlerTimeOut
 from software.handler_io import HandlerIO
 from hardware.irq_type import IrqType
 from software.q_io import QIo
+from hardware.io_device import IoDevice
 
 
 class CpuTest(unittest.TestCase):
@@ -37,6 +38,7 @@ class CpuTest(unittest.TestCase):
         self.hardDisk = HardDisk()
         self.memory = Memory()
         self.cpu = CPU(self.memory)
+        self.ioDevice = IoDevice(self.memory)
 
         #kernel
         self.qReady = QReady()
@@ -50,7 +52,7 @@ class CpuTest(unittest.TestCase):
         self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
         
         self.irqTypeIO = IrqType.irqIO
-        self.handlerIO = HandlerIO(self.cpu)
+        self.handlerIO = HandlerIO(self.cpu,self.qReady)
         
         self.handlerIO.addDevice(self.irqTypeIO,self.qIo)
         
@@ -58,9 +60,11 @@ class CpuTest(unittest.TestCase):
         self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
         self.handler_data.setUp(self.irqTypeTimeOut, self.handlerTimeOut)
         self.handler_data.setUp(self.irqTypeIO, self.handlerIO)
-        self.interruptionManager = InterruptionManager(self.handler_data)
-        self.cpu.setUp(self.interruptionManager)
         
+        self.interruptionManager = InterruptionManager(self.handler_data)
+        
+        self.cpu.setUp(self.interruptionManager)
+        self.ioDevice.setUp(self.interruptionManager,self.qIo)
         
         
         self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady)
@@ -185,6 +189,21 @@ class CpuTest(unittest.TestCase):
         self.cpu.fetch()
         
         self.shell.ps()
+        
+        self.ioDevice.setPCB()
+        self.ioDevice.fetch()
+        
+        self.shell.ps()
+        self.cpu.fetch()
+        self.shell.ps()
+        self.cpu.fetch()
+        
+        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.shell.ps()
+        self.cpu.fetch()
+        self.shell.ps()
+        
         self.assertTrue(True)
 
 #unittest.main(verbosity=2)

@@ -71,7 +71,7 @@ class CPU:
         #ejecuta la instruccion
         else:
             self.instruction.process()
-            print("CPU:prosesando instruccion")
+            print("CPU:procesando instruccion")
             self.pcb.incrementProgramCounter()  
             self.quantum = self.quantum - 1
 
