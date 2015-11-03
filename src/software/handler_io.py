@@ -45,9 +45,9 @@ class HandlerIO:
             ## la cola de io correspondiente a esa instruccion
             ## por ahora solo hay una unica io
             
-            for k,v in self.ioQueues:
+            for k in self.ioQueues:
                 if k.knownInstruction(ioInstruction):
-                    v.queue(pcb)
+                    self.ioQueues[k].queue(pcb)
                     
             #self.ioQueues[ioDev].queue(pcb)
             #self.ioQueue.queue(pcb)
