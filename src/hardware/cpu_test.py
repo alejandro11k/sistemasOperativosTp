@@ -21,6 +21,8 @@ from software.handler_io import HandlerIO
 from hardware.irq_type import IrqType
 from software.q_io import QIo
 from hardware.io_device import IoDevice
+from software.handler_io_from_cpu import HandlerIOfromCPU
+from software.handler_io_from_io import HandlerIOfromIO
 
 
 class CpuTest(unittest.TestCase):
@@ -51,15 +53,21 @@ class CpuTest(unittest.TestCase):
         self.irqTypeTimeOut = IrqType.irqTIME_OUT
         self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
         
-        self.irqTypeIO = IrqType.irqIO
-        self.handlerIO = HandlerIO(self.cpu,self.qReady)
+        #self.irqTypeIO = IrqType.irqIO
+        #self.handlerIO = HandlerIO(self.cpu,self.qReady)
         
-        self.handlerIO.addDevice(self.ioDevice,self.qIo)
+        self.irqTypeIOfromCPU = IrqType.irqIOfromCPU
+        self.handlerIOfromCPU = HandlerIOfromCPU(self.cpu)
+        
+        self.irqTypeIOfromIO = IrqType.irqIOfromIO
+        self.handlerIOfromIO = HandlerIOfromIO(self.qReady)
+        
         
         self.handler_data = HandlerData()
         self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
         self.handler_data.setUp(self.irqTypeTimeOut, self.handlerTimeOut)
-        self.handler_data.setUp(self.irqTypeIO, self.handlerIO)
+        self.handler_data.setUp(self.irqTypeIOfromCPU, self.handlerIOfromCPU)
+        self.handler_data.setUp(self.irqTypeIOfromIO, self.handlerIOfromIO)
         
         self.interruptionManager = InterruptionManager(self.handler_data)
         
@@ -103,7 +111,7 @@ class CpuTest(unittest.TestCase):
         self.hardDisk.save(self.programIO)
         
         #el handler conoce el device
-        self.handlerIO.addDevice(self.ioDevice, self.qIo)
+        self.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
         #el device conoce la instruccion print
         self.ioDevice.learnInstruction(self.instructionPrint)
         

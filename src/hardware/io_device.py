@@ -39,7 +39,7 @@ class IoDevice:
             
             self.process()
             
-            self.irq = Irq(IrqType.irqIO,self.pcb)
+            self.irq = Irq(IrqType.irqIOfromIO,self.pcb)
             self.interruptorManager.handle(self.irq)
 
     def calculateDirection(self):
@@ -49,7 +49,7 @@ class IoDevice:
     def setPCB(self):
 
         nextPCB = self.qio.getFirst()
-        nextPCB.state = ProcessStates.processRunningIO
+        nextPCB.state = ProcessStates.processRunning
         
         self.pcb = nextPCB
         

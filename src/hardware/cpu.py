@@ -45,7 +45,7 @@ class CPU:
             # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
             
             if self.instruction.instructionType==InstructionType.instructionIO:
-                self.irq = Irq(IrqType.irqIO,self.pcb)
+                self.irq = Irq(IrqType.irqIOfromCPU,self.pcb)
                 self.interruptorManager.handle(self.irq)
                 #self.interruptorManager.register(IO_INTERRUPT, new IOHandler())
             else:

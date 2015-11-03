@@ -7,3 +7,5 @@ class IrqType(Enum):
     irqEND_IO = 3
     irqTIME_OUT = 4
     irqNEW = 5
+    irqIOfromCPU = 8
+    irqIOfromIO = 7
