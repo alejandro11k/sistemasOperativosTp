@@ -1,5 +1,5 @@
-from irq import Irq
-from irq_type import IrqType
+from hardware.irq import Irq
+from hardware.irq_type import IrqType
 from software.instruction_type import InstructionType
 from software.instruction import Instruction
 

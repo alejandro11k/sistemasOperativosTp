@@ -29,7 +29,7 @@ class HandlerIO:
             
             self.qready.queue(pcb)
         
-        if pcb.state==ProcessStates.processRunning and not (self.cpu.irq == None):
+        if pcb.state==ProcessStates.processRunning: #and not (self.cpu.irq == None):
             
             print("io handle (from cpu) in action!")
             
