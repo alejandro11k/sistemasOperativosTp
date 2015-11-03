@@ -38,7 +38,7 @@ class CpuTest(unittest.TestCase):
         self.hardDisk = HardDisk()
         self.memory = Memory()
         self.cpu = CPU(self.memory)
-        self.ioDevice = IoDevice(self.memory)
+        self.ioDevice = IoDevice("IOdevice",self.memory)
 
         #kernel
         self.qReady = QReady()
@@ -54,7 +54,7 @@ class CpuTest(unittest.TestCase):
         self.irqTypeIO = IrqType.irqIO
         self.handlerIO = HandlerIO(self.cpu,self.qReady)
         
-        self.handlerIO.addDevice(self.irqTypeIO,self.qIo)
+        self.handlerIO.addDevice(self.ioDevice,self.qIo)
         
         self.handler_data = HandlerData()
         self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
@@ -65,6 +65,7 @@ class CpuTest(unittest.TestCase):
         
         self.cpu.setUp(self.interruptionManager)
         self.ioDevice.setUp(self.interruptionManager,self.qIo)
+        self.ioDevice.learnInstruction("PRINT")
         
         
         self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady)
@@ -72,8 +73,8 @@ class CpuTest(unittest.TestCase):
         self.schedule = Schedule(self.qReady,self.cpu)
         
         #crep un programa
-        self.instructionEnd = Instruction(InstructionType.instructionEND)
-        self.instructionCpu = Instruction(InstructionType.instructionCPU)
+        self.instructionEnd = Instruction(InstructionType.instructionEND,"KILL")
+        self.instructionCpu = Instruction(InstructionType.instructionCPU,"SUM")
         instructions = []
         instructions.append(self.instructionCpu)
         instructions.append(self.instructionCpu)
@@ -88,15 +89,23 @@ class CpuTest(unittest.TestCase):
         
         #creo otro programa
         instructions = []
-        self.instructionIO = Instruction(InstructionType.instructionIO)
+        self.instructionTypeIO = InstructionType.instructionIO
+        self.instructionPrint = Instruction(self.instructionTypeIO,"PRINT")
+        
+        #self.instructionIO = Instruction(InstructionType.instructionIO,"PRINT")
         instructions.append(self.instructionCpu)
-        instructions.append(self.instructionIO)
+        instructions.append(self.instructionPrint)
         instructions.append(self.instructionEnd)
         
         self.programIO = Program("io_program")
         self.programIO.compileInstructions(instructions)
         
         self.hardDisk.save(self.programIO)
+        
+        #el handler conoce el device
+        self.handlerIO.addDevice(self.ioDevice, self.qIo)
+        #el device conoce la instruccion print
+        self.ioDevice.learnInstruction(self.instructionPrint)
         
     def pruebaDeEjecucion1(self):
         
@@ -171,9 +180,11 @@ class CpuTest(unittest.TestCase):
         
         self.schedule.roundRobinQuantum(2)
         self.cpu.fetch()
+        self.shell.run("empty_program")
         self.cpu.fetch()
         self.cpu.fetch()
         
+        self.shell.run("empty_program")
         self.shell.ps()
             
         self.assertTrue(True)

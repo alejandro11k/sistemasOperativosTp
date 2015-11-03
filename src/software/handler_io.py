@@ -21,9 +21,12 @@ class HandlerIO:
     ## limpia la cpu
     ## envia el pcb a la cola de io
     
+        result = self.pcb.programCounter-1 + self.pcb.baseDirection
+        instruction = self.memory.get(result) 
         
-        if pcb.state==ProcessStates.processRunningIO:
-            print("io handle (from cpu) in action!")
+        #if pcb.state==ProcessStates.processRunningIO:
+        if instruction.isIO():
+            print("io handle (from io) in action!")
             
             self.pcb.state = ProcessStates.processReady
             

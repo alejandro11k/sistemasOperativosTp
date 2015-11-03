@@ -8,7 +8,8 @@ class Instruction:
     def process(self):
         pass
     
-    
+    def isIO(self):
+        return self.instructionType.name=="instructionIO"
         
         
     

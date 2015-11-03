@@ -2,12 +2,14 @@ class PCBTable:
 
     def __init__(self):
         self.pcbs = []
+        self.lastUsedId = 0
         
     def add (self, pcb):
         self.pcbs.append(pcb)
         
     def nextFreeId(self):
-        return len(self.pcbs) + 1
+        self.lastUsedId = self.lastUsedId + 1
+        return self.lastUsedId
     
     def printPcbTable(self):
         #podria ser un programa io?

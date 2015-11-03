@@ -40,6 +40,7 @@ class Test(unittest.TestCase):
         self.handlerIO.addDevice(self.ioDev2, self.dev2qio)
         
         self.ioDev2.learnInstruction(self.instructionPrint)
+        
         self.cpu.instruction = self.instructionPrint
         self.handlerIO.handle(self.pcbRunning)
               

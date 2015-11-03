@@ -1,4 +1,6 @@
 from software.process_states import ProcessStates
+from hardware.irq import Irq
+from hardware.irq_type import IrqType
 
 class IoDevice:
 
