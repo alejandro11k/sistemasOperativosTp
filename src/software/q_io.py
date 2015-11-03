@@ -1,5 +1,4 @@
 from software.my_queue import MyQueue
-from software.pcb import PCB
 
 class QIo():
 
