@@ -1,7 +1,8 @@
 from software.process_states import ProcessStates 
 
 class HandlerIO:
-
+    #DEPRECATED
+    
     def __init__ (self,cpu,qready):
         
         self.pcb = None

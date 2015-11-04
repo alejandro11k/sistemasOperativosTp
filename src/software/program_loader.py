@@ -1,4 +1,3 @@
-from hardware.hard_disk import HardDisk
 from hardware.memory import Memory
 from software.program import Program
 from software.pcb import PCB
@@ -25,14 +24,6 @@ class ProgramLoader:
     def memoryDump(self, program, pcb):
        
         pcb.baseDirection = self.memory.firstFreeDirection
-    
-        '''while(not program.isLastInstuction()):
-            
-            instructionToDump = program.nextInstruction()
-            self.memory.put(instructionToDump)
-        
-        instructionToDump = program.nextInstruction()
-        self.memory.put(instructionToDump)'''
         
         for n in range(program.programLength()):
             instructionToDump = program.getInstruction(n)

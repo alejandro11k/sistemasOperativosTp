@@ -27,11 +27,6 @@ from software.handler_io_from_io import HandlerIOfromIO
 
 class CpuTest(unittest.TestCase):
 
-    '''
-    este test esta desactualizado, y las clases nuevas estan
-    en proceso
-    '''
-
     def setUp(self):
   
 
@@ -52,9 +47,6 @@ class CpuTest(unittest.TestCase):
         
         self.irqTypeTimeOut = IrqType.irqTIME_OUT
         self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
-        
-        #self.irqTypeIO = IrqType.irqIO
-        #self.handlerIO = HandlerIO(self.cpu,self.qReady)
         
         self.irqTypeIOfromCPU = IrqType.irqIOfromCPU
         self.handlerIOfromCPU = HandlerIOfromCPU(self.cpu)

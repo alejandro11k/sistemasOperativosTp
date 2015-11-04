@@ -10,7 +10,8 @@ from software.instruction import Instruction
 from hardware.cpu import CPU
 
 class Test(unittest.TestCase):
-
+    #DEPRECATED 
+    
     def setUp(self):
     
         self.memory = None
