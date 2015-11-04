@@ -1,6 +1,5 @@
 from software.process_states import ProcessStates 
 
-
 class PCB:
 
     def __init__(self, idProcess):

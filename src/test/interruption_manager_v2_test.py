@@ -26,7 +26,7 @@ class Test(unittest.TestCase):
         self.handlerIOfromIO = HandlerIOfromIO("self.qReady")
         
         self.irqTypeNew = IrqType.irqNEW
-        self.handlerNew = HandlerNew()
+        self.handlerNew = HandlerNew("pcbTable","hardDisk","memory","qReady")
         
         self.irqTypeProcess = IrqType.irqProcess
         self.handlerProcess = HandlerProcess()

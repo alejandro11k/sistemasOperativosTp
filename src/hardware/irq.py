@@ -5,8 +5,5 @@ class Irq:
         self.typeOfIrq = typeOfIrq
         self.pcb = pcb
 
-
-
-
 #irq = new IRQ(KILL_INTERRUPT, pcb)
 
