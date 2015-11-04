@@ -11,7 +11,15 @@ class InterruptionManagerV2:
         #aca se ejecuta el handle encontrado run
         self.register(irq,handler)
     
-    def register(self,irq, handler):
-
-        handler.run(irq)
+    def register(self,irq,handler):
+        pass
+        #add to a queue
+        
+    def runNextIrq(self):
+        pass
+        #if self.cpu.isIdle
+        
+        #else
+        
+        #self.handler.run()
 

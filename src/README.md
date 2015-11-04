@@ -1,8 +1,15 @@
 Pendientes del TP
 
 next:
-correr varios programas de CPU ok
-actualizar la pcbTable! toDo
+Obligatorios
+cola de irqs en interruption manager
+clock con thick a cpu e interruption manager
+hacer correr todo con Threads
+shceduler con estrategia de prioridad
+
+Extras?
+una shell con imput? que el imput se ejecute en la simulacion?
+que ps y ls sean programs y se ejecuten en la simulacion?
 
 io:
 ioDeviceCpu
