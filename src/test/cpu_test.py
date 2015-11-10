@@ -1,7 +1,7 @@
 import unittest
 
-from memory import Memory
-from cpu import CPU
+from hardware.memory import Memory
+from hardware.cpu import CPU
 from hardware.hard_disk import HardDisk
 
 from software.interruption_manager import InterruptionManager

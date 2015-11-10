@@ -1,7 +1,13 @@
+from threading import Thread, RLock
+
 class InterruptionManagerV2:
+    
+    #este im implementa una cola de irq
     
     def __init__(self,handler_data):
         self.handler_data = handler_data
+        self.im_lock = RLock()
+        self.handler = None
         
     def handle(self, irq):
         
@@ -16,10 +22,14 @@ class InterruptionManagerV2:
         #add to a queue
         
     def runNextIrq(self):
-        pass
-        #if self.cpu.isIdle
         
-        #else
-        
+        with self.im_lock:
+            pass
+            #if self.cpu.isIdle
+            #take first irq
+            
         #self.handler.run()
+        
+        
+        
 

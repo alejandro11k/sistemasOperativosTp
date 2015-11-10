@@ -29,7 +29,7 @@ class Test(unittest.TestCase):
         self.handlerNew = HandlerNew("pcbTable","hardDisk","memory","qReady")
         
         self.irqTypeProcess = IrqType.irqProcess
-        self.handlerProcess = HandlerProcess()
+        self.handlerProcess = HandlerProcess("scheduler")
         
         self.handler_data = HandlerData()
         self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
