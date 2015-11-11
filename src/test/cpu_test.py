@@ -42,6 +42,8 @@ class CpuTest(unittest.TestCase):
         self.qIo = QIo()
         self.pcbTable = PCBTable()
         
+        
+        self.interruptionManager = InterruptionManager()
         self.irqTypeKill = IrqType.irqKILL
         self.handlerKill = HandlerKill(self.cpu,self.pcbTable)
         
@@ -53,15 +55,11 @@ class CpuTest(unittest.TestCase):
         
         self.irqTypeIOfromIO = IrqType.irqIOfromIO
         self.handlerIOfromIO = HandlerIOfromIO(self.qReady)
-        
-        
-        self.handler_data = HandlerData()
-        self.handler_data.setUp(self.irqTypeKill, self.handlerKill)
-        self.handler_data.setUp(self.irqTypeTimeOut, self.handlerTimeOut)
-        self.handler_data.setUp(self.irqTypeIOfromCPU, self.handlerIOfromCPU)
-        self.handler_data.setUp(self.irqTypeIOfromIO, self.handlerIOfromIO)
-        
-        self.interruptionManager = InterruptionManager(self.handler_data)
+
+        self.interruptionManager.register(self.irqTypeKill, self.handlerKill)
+        self.interruptionManager.register(self.irqTypeTimeOut, self.handlerTimeOut)
+        self.interruptionManager.register(self.irqTypeIOfromCPU, self.handlerIOfromCPU)
+        self.interruptionManager.register(self.irqTypeIOfromIO, self.handlerIOfromIO)
         
         self.cpu.setUp(self.interruptionManager)
         self.ioDevice.setUp(self.interruptionManager,self.qIo)

@@ -2,8 +2,9 @@ class InterruptionManager:
     
     def __init__(self,handler_data):
         self.handler_data = handler_data
-        self.pendingToProcessIrqs = [] 
-        
+        self.pendingToProcessIrqs = []
+        self.irqRoutines = {} 
+    
     def handle(self, irq):
         self.pendingToProcessIrqs.append(irq)
     
@@ -15,11 +16,17 @@ class InterruptionManager:
     
     def run(self, irq):
         #buscar en el diccionario el handler correspondiente
-        handler = self.handler_data.getHandler(irq.typeOfIrq)
-        
+        handler = self.getHandler(irq.typeOfIrq)
         #aca se ejecuta el handle encontrado run
-
         handler.run(irq)
+    
+    def register(self,irqType,handler):
+        self.irqDictionary[irqType.name] = handler
+        
+    def getHandler(self,irqType):
+        handler = self.irqRoutines[irqType.name]
+        return handler   
+
 
 """
 KILL_INTERRUPT="#KILL"
