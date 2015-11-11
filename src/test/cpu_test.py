@@ -23,6 +23,8 @@ from software.q_io import QIo
 from hardware.io_device import IoDevice
 from software.handler_io_from_cpu import HandlerIOfromCPU
 from software.handler_io_from_io import HandlerIOfromIO
+from hardware.clock import Clock
+from time import sleep
 
 
 class CpuTest(unittest.TestCase):
@@ -68,7 +70,7 @@ class CpuTest(unittest.TestCase):
         self.ioDevice.learnInstruction("PRINT")
         
         
-        self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady)
+        self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady,self.schedule)
         self.shell = Shell(self.programLoader)
         self.schedule = Schedule(self.qReady,self.cpu)
         
@@ -107,18 +109,25 @@ class CpuTest(unittest.TestCase):
         #el device conoce la instruccion print
         self.ioDevice.learnInstruction(self.instructionPrint)
         
+        self.clock = Clock(self.cpu,self.interruptionManager)
+        
     def pruebaDeEjecucion1(self):
         
         self.shell.run("empty_program")
         self.schedule.roundRobinQuantum(2)
-        self.cpu.fetch()
-        self.cpu.fetch()
-        self.cpu.fetch()
-        self.cpu.fetch()
+        self.clock.run()
+        self.shell.run("empty_program")
         self.schedule.roundRobinQuantum(2)
+        '''self.cpu.fetch()
         self.cpu.fetch()
         self.cpu.fetch()
+        self.cpu.fetch()'''
+        #self.schedule.roundRobinQuantum(2)
+        '''self.cpu.fetch()
         self.cpu.fetch()
+        self.cpu.fetch()'''
+        
+        #sleep(200)
         
         self.assertTrue(True)
         
