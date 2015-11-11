@@ -69,10 +69,10 @@ class CpuTest(unittest.TestCase):
         self.ioDevice.setUp(self.interruptionManager,self.qIo)
         self.ioDevice.learnInstruction("PRINT")
         
-        
-        self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady,self.schedule)
-        self.shell = Shell(self.programLoader)
         self.schedule = Schedule(self.qReady,self.cpu)
+        self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady,self.schedule,self.cpu)
+        self.shell = Shell(self.programLoader)
+        
         
         #crep un programa
         self.instructionEnd = Instruction(InstructionType.instructionEND,"KILL")
@@ -111,6 +111,16 @@ class CpuTest(unittest.TestCase):
         
         self.clock = Clock(self.cpu,self.interruptionManager)
         
+        
+        
+    def pruebaDeEjecucion0(self):
+        
+        self.shell.run("empty_program")
+        self.shell.run("empty_program")
+        
+        self.clock.run()
+        
+           
     def pruebaDeEjecucion1(self):
         
         self.shell.run("empty_program")

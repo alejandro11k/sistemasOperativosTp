@@ -9,12 +9,13 @@ from sched import scheduler
 
 class ProgramLoader:
     
-    def __init__(self,hardDisk, memory, pcbTable, qReady, scheduler):
+    def __init__(self,hardDisk, memory, pcbTable, qReady, scheduler,cpu):
         self.pcbTable = pcbTable
         self.hardDisk = hardDisk
         self.memory = memory
         self.qReady = qReady
         self.scheduler = scheduler
+        self.cpu = cpu
         
     def load(self,programName):
         programCopy = self.hardDisk.find(programName)

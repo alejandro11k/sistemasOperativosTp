@@ -74,4 +74,7 @@ class CPU:
             print("CPU:procesando instruccion")
             self.pcb.incrementProgramCounter()  
             self.quantum = self.quantum - 1
-
+    
+    def isIdle(self):
+        if self.pcb==None:
+                print("CPU:idle")
