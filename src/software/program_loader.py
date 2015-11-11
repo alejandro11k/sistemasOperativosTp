@@ -3,15 +3,19 @@ from software.program import Program
 from software.pcb import PCB
 from software.pcb_table import PCBTable
 from software.process_states import ProcessStates
+from hardware.irq import Irq
+from hardware.irq_type import IrqType
+from sched import scheduler
 
 class ProgramLoader:
     
-    def __init__(self,hardDisk, memory, pcbTable, qReady):
+    def __init__(self,hardDisk, memory, pcbTable, qReady, scheduler,cpu):
         self.pcbTable = pcbTable
         self.hardDisk = hardDisk
         self.memory = memory
         self.qReady = qReady
-        
+        self.scheduler = scheduler
+        self.cpu = cpu
         
     def load(self,programName):
         programCopy = self.hardDisk.find(programName)
@@ -19,7 +23,11 @@ class ProgramLoader:
         self.memoryDump(programCopy, pcb)
         self.pcbTable.add(pcb)
         self.qReady.queue(pcb)
+        self.switch()
         
+    def switch(self):
+        if self.cpu.isIdle():
+            self.schedule.roundRobinQuantum(2)
         
     def memoryDump(self, program, pcb):
        
