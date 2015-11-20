@@ -7,14 +7,18 @@ class QReady():
 
     def __init__(self):
         self.pcbs = []
+        self.ready = 0
         
     def queue(self,pcb):
         self.pcbs.append(pcb)
+        self.ready+=1
         
     def getFirst(self):
         #empty pcbs broke
-        if len(self.pcbs) < 0:
-            pcb = self.pcbs.pop(0)
-            return pcb
+        pcb = self.pcbs.pop(0)
+        self.ready-=1
+        return pcb
     
-    
+    def isSomeoneReady(self):
+        value = not (self.ready==0)
+        return value

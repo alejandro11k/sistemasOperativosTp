@@ -27,7 +27,7 @@ class ProgramLoader:
         
     def switch(self):
         if self.cpu.isIdle():
-            self.schedule.roundRobinQuantum(2)
+            self.scheduler.roundRobinQuantum(2)
         
     def memoryDump(self, program, pcb):
        

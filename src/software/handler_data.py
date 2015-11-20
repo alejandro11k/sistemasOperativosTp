@@ -1,5 +1,5 @@
 class HandlerData:
-    #BORRRARRRR
+    #BORRRARRRR --deprecated
     '''
     Handler container and IRQ correspondence
     '''

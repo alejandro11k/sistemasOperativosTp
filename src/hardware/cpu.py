@@ -76,5 +76,8 @@ class CPU:
             self.quantum = self.quantum - 1
     
     def isIdle(self):
+        retValue=False
         if self.pcb==None:
                 print("CPU:idle")
+                retValue=True
+        return retValue

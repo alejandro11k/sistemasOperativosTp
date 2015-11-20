@@ -44,13 +44,15 @@ class CpuTest(unittest.TestCase):
         self.qIo = QIo()
         self.pcbTable = PCBTable()
         
+        self.schedule = Schedule(self.qReady,self.cpu)
+        
         
         self.interruptionManager = InterruptionManager()
         self.irqTypeKill = IrqType.irqKILL
-        self.handlerKill = HandlerKill(self.cpu,self.pcbTable)
+        self.handlerKill = HandlerKill(self.cpu,self.pcbTable,self.schedule)
         
         self.irqTypeTimeOut = IrqType.irqTIME_OUT
-        self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady)
+        self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady,self.schedule)
         
         self.irqTypeIOfromCPU = IrqType.irqIOfromCPU
         self.handlerIOfromCPU = HandlerIOfromCPU(self.cpu)
@@ -67,7 +69,7 @@ class CpuTest(unittest.TestCase):
         self.ioDevice.setUp(self.interruptionManager,self.qIo)
         self.ioDevice.learnInstruction("PRINT")
         
-        self.schedule = Schedule(self.qReady,self.cpu)
+        
         self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady,self.schedule,self.cpu)
         self.shell = Shell(self.programLoader)
         
@@ -118,24 +120,16 @@ class CpuTest(unittest.TestCase):
         
         self.clock.run()
         
+        self.sleep(10)
+        
            
     def pruebaDeEjecucion1(self):
         
         self.shell.run("empty_program")
-        self.schedule.roundRobinQuantum(2)
-        self.clock.run()
         self.shell.run("empty_program")
-        self.schedule.roundRobinQuantum(2)
-        '''self.cpu.fetch()
-        self.cpu.fetch()
-        self.cpu.fetch()
-        self.cpu.fetch()'''
-        #self.schedule.roundRobinQuantum(2)
-        '''self.cpu.fetch()
-        self.cpu.fetch()
-        self.cpu.fetch()'''
-        
-        #sleep(200)
+        self.shell.run("empty_program")
+        self.shell.run("empty_program")
+        self.clock.run()
         
         self.assertTrue(True)
         

@@ -1,9 +1,10 @@
 class HandlerKill:
 
-    def __init__ (self,cpu,pcbtable):
+    def __init__ (self,cpu,pcbtable,scheduler):
         self.pcb = None
         self.cpu = cpu
         self.pcbtable = pcbtable
+        self.scheduler = scheduler
 
     def run(self,irq):
         self.handle(irq.pcb)
@@ -28,6 +29,6 @@ class HandlerKill:
             
             self.switch()
             
-        def switch(self):
-            if self.cpu.isIdle():
-                self.schedule.roundRobinQuantum(2)
+    def switch(self):
+        if self.cpu.isIdle():
+            self.scheduler.roundRobinQuantum(2)

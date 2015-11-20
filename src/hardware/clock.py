@@ -16,7 +16,7 @@ class Clock(Thread):
         
     def run(self):
         Thread.run(self)
-        for x in range(1,100):
+        for x in range(1,8):
             self.pulse()
             sleep(1)
             x+=1

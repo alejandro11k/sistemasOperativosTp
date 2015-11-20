@@ -4,10 +4,11 @@ from software.process_states import ProcessStates
 
 class HandlerTimeOut:
 
-    def __init__ (self,cpu,qready):
+    def __init__ (self,cpu,qready,scheduler):
         self.pcb = None
         self.cpu = cpu
         self.qready = qready
+        self.scheduler = scheduler
 
     def run(self,irq):
         self.handle(irq.pcb)
@@ -34,4 +35,4 @@ class HandlerTimeOut:
     
     def switch(self):
         if self.cpu.isIdle():
-            self.schedule.roundRobinQuantum(2)
+            self.scheduler.roundRobinQuantum(2)
