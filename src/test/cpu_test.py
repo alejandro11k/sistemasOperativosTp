@@ -36,17 +36,29 @@ class CpuTest(unittest.TestCase):
         self.hardDisk = HardDisk()
         self.memory = Memory()
         self.cpu = CPU(self.memory)
-        self.ioDevice = IoDevice("IOdevice",self.memory)
+        self.ioDevice = IoDevice("IOdevice OUT",self.memory)
+        self.ioDevice2 = IoDevice("IOdevice IN",self.memory)
 
         #kernel
         self.qReady = QReady()
         self.qIo = QIo()
+        self.qIo2 = QIo()
         self.pcbTable = PCBTable()
         
         self.scheduler = Schedule(self.qReady,self.cpu)
         
-        
         self.interruptionManager = InterruptionManager(self.cpu,self.scheduler)
+        
+        self.cpu.setUp(self.interruptionManager)
+        
+        self.ioDevice.setUp(self.interruptionManager,self.qIo)
+        self.ioDevice.learnInstruction("PRINT")
+        
+        self.ioDevice2.setUp(self.interruptionManager,self.qIo2)
+        self.ioDevice2.learnInstruction("INPUT")
+        
+        self.shell = Shell(self.interruptionManager)
+        
         self.irqTypeKill = IrqType.irqKILL
         self.handlerKill = HandlerKill(self.cpu,self.pcbTable,self.scheduler)
         
@@ -67,13 +79,6 @@ class CpuTest(unittest.TestCase):
         self.interruptionManager.register(self.irqTypeIOfromCPU, self.handlerIOfromCPU)
         self.interruptionManager.register(self.irqTypeIOfromIO, self.handlerIOfromIO)
         self.interruptionManager.register(self.irqTypeNew, self.handlerNew)
-        
-        self.cpu.setUp(self.interruptionManager)
-        self.ioDevice.setUp(self.interruptionManager,self.qIo)
-        self.ioDevice.learnInstruction("PRINT")
-        
-        self.shell = Shell(self.interruptionManager)
-        
         
         #crep un programa
         self.instructionEnd = Instruction(InstructionType.instructionEND,"KILL")
@@ -105,12 +110,29 @@ class CpuTest(unittest.TestCase):
         
         self.hardDisk.save(self.programIO)
         
+        #creo otro programaMas
+        instructions = []
+        self.instructionTypeIO = InstructionType.instructionIO
+        self.instructionInput = Instruction(self.instructionTypeIO,"INPUT")
+        
+        #self.instructionIO = Instruction(InstructionType.instructionIO,"PRINT")
+        instructions.append(self.instructionCpu)
+        instructions.append(self.instructionInput)
+        instructions.append(self.instructionEnd)
+        
+        self.programIO2 = Program("io_program2")
+        self.programIO2.compileInstructions(instructions)
+        
+        self.hardDisk.save(self.programIO2)
+        
         #el handler conoce el device
         self.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
+        self.handlerIOfromCPU.addDevice(self.ioDevice2, self.qIo2)
         #el device conoce la instruccion print
         self.ioDevice.learnInstruction(self.instructionPrint)
+        self.ioDevice2.learnInstruction(self.instructionInput)
         
-        self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice)
+        self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
         
         
     def pruebaDeEjecucionCpuPrograms(self):
@@ -126,6 +148,8 @@ class CpuTest(unittest.TestCase):
     def pruebaDeEjecucionCpuAndIoPrograms(self):
         
         self.shell.run("empty_program")
+        self.shell.run("io_program")
+        self.shell.run("io_program2")
         self.shell.run("io_program")
         
         self.clock.run()

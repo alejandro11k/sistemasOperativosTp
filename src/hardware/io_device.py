@@ -29,11 +29,10 @@ class IoDevice:
     
     def fetch(self):
         
-        x = self.qio.emptyQ()
-        x
+        #x = self.qio.emptyQ()
         
         if self.pcb==None and self.qio.emptyQ():
-            print("ioDev:idle")
+            print("ioDev:idle:",self.name)
         
         else:
             self.setPCB()
@@ -62,6 +61,6 @@ class IoDevice:
     def process(self):
 
         self.instruction.process()
-        print("IO Dev:procesando instruccion idP:" ,self.pcb.idProcess)
+        print("IO Dev:procesando instruccion idP:" ,self.name,":",self.pcb.idProcess)
         self.pcb.incrementProgramCounter()
         
