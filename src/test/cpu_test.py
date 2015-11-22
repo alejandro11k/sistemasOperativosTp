@@ -10,11 +10,9 @@ from software.instruction import Instruction
 from software.instruction_type import InstructionType
 from software.program import Program
 from software.shell import Shell
-from software.program_loader import ProgramLoader
 from software.pcb_table import PCBTable
 from software.q_ready import QReady
-from software.schedule import Schedule
-from software.handler_data import HandlerData
+from software.scheduler import Schedule
 from software.handler_kill import HandlerKill
 from software.handler_time_out import HandlerTimeOut
 from software.handler_io import HandlerIO
@@ -23,8 +21,10 @@ from software.q_io import QIo
 from hardware.io_device import IoDevice
 from software.handler_io_from_cpu import HandlerIOfromCPU
 from software.handler_io_from_io import HandlerIOfromIO
+from software.handler_new import HandlerNew
 from hardware.clock import Clock
 from time import sleep
+
 
 
 class CpuTest(unittest.TestCase):
@@ -44,34 +44,36 @@ class CpuTest(unittest.TestCase):
         self.qIo = QIo()
         self.pcbTable = PCBTable()
         
-        self.schedule = Schedule(self.qReady,self.cpu)
+        self.scheduler = Schedule(self.qReady,self.cpu)
         
         
         self.interruptionManager = InterruptionManager()
         self.irqTypeKill = IrqType.irqKILL
-        self.handlerKill = HandlerKill(self.cpu,self.pcbTable,self.schedule)
+        self.handlerKill = HandlerKill(self.cpu,self.pcbTable,self.scheduler)
         
         self.irqTypeTimeOut = IrqType.irqTIME_OUT
-        self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady,self.schedule)
+        self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady,self.scheduler)
         
         self.irqTypeIOfromCPU = IrqType.irqIOfromCPU
         self.handlerIOfromCPU = HandlerIOfromCPU(self.cpu)
         
         self.irqTypeIOfromIO = IrqType.irqIOfromIO
         self.handlerIOfromIO = HandlerIOfromIO(self.qReady)
+        
+        self.irqTypeNew = IrqType.irqNEW
+        self.handlerNew = HandlerNew(self.hardDisk, self.memory, self.pcbTable, self.qReady, self.scheduler,self.cpu)
 
         self.interruptionManager.register(self.irqTypeKill, self.handlerKill)
         self.interruptionManager.register(self.irqTypeTimeOut, self.handlerTimeOut)
         self.interruptionManager.register(self.irqTypeIOfromCPU, self.handlerIOfromCPU)
         self.interruptionManager.register(self.irqTypeIOfromIO, self.handlerIOfromIO)
+        self.interruptionManager.register(self.irqTypeNew, self.handlerNew)
         
         self.cpu.setUp(self.interruptionManager)
         self.ioDevice.setUp(self.interruptionManager,self.qIo)
         self.ioDevice.learnInstruction("PRINT")
         
-        
-        self.programLoader = ProgramLoader(self.hardDisk,self.memory,self.pcbTable,self.qReady,self.schedule,self.cpu)
-        self.shell = Shell(self.programLoader)
+        self.shell = Shell(self.interruptionManager)
         
         
         #crep un programa
@@ -144,7 +146,7 @@ class CpuTest(unittest.TestCase):
         self.shell.ps()
                       
         self.cpu.fetch()
-        self.schedule.roundRobinQuantum(2)
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         
         self.shell.ps()
@@ -154,7 +156,7 @@ class CpuTest(unittest.TestCase):
         
         self.shell.ps()
         
-        self.schedule.roundRobinQuantum(2)
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         
         self.shell.ps()
@@ -164,22 +166,14 @@ class CpuTest(unittest.TestCase):
         
         self.shell.ps()
         
-        self.schedule.roundRobinQuantum(2)
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         self.cpu.fetch()
         self.cpu.fetch()
         
         self.shell.ps()
         
-        self.schedule.roundRobinQuantum(2)
-        self.cpu.fetch()
-        
-        self.shell.ps()
-        
-        self.cpu.fetch()
-        self.cpu.fetch()
-        
-        self.schedule.roundRobinQuantum(2)
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         
         self.shell.ps()
@@ -187,9 +181,17 @@ class CpuTest(unittest.TestCase):
         self.cpu.fetch()
         self.cpu.fetch()
         
+        self.scheduler.roundRobinQuantum(2)
+        self.cpu.fetch()
+        
         self.shell.ps()
         
-        self.schedule.roundRobinQuantum(2)
+        self.cpu.fetch()
+        self.cpu.fetch()
+        
+        self.shell.ps()
+        
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         self.shell.run("empty_program")
         self.cpu.fetch()
@@ -203,7 +205,7 @@ class CpuTest(unittest.TestCase):
     def pruebaDeEjecucion3(self):
         #programa con instruccion de io
         self.shell.run("io_program")
-        self.schedule.roundRobinQuantum(2)
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         self.shell.ps()
         self.cpu.fetch()
@@ -220,7 +222,7 @@ class CpuTest(unittest.TestCase):
         self.shell.ps()
         self.cpu.fetch()
         
-        self.schedule.roundRobinQuantum(2)
+        self.scheduler.roundRobinQuantum(2)
         self.cpu.fetch()
         self.shell.ps()
         self.cpu.fetch()

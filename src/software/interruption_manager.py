@@ -27,21 +27,3 @@ class InterruptionManager:
         handler = self.irqRoutines[irqType.name]
         return handler   
 
-
-"""
-KILL_INTERRUPT="#KILL"
-IO_INTERRUPT="IO"
-"""
-
-"""im = new InterruptorManager
-im.register(KILL_INTERRUPT, new KillHandler())
-im.register(IO_INTERRUPT, new IOHandler())
-
-cpu hace : 
-   im.handle(irq)
-
-
-Handler.handle(pcb)
-
-self.irqDictionary["KILL_INTERRUPT"] = KillHandler()
-"""

@@ -3,39 +3,43 @@ from software.program import Program
 from software.pcb import PCB
 from software.pcb_table import PCBTable
 from software.process_states import ProcessStates
+from hardware.irq import Irq
+from hardware.irq_type import IrqType
+from sched import scheduler
 
 class HandlerNew:
     
-    def __init__(self,pcbTable,hardDisk,memory,qReady):
-    
+    def __init__(self,hardDisk, memory, pcbTable, qReady, scheduler,cpu):
         self.pcbTable = pcbTable
         self.hardDisk = hardDisk
         self.memory = memory
         self.qReady = qReady
+        self.scheduler = scheduler
+        self.cpu = cpu
         
-    #pseudocodigo
-    #basicamente es el ProgramLoader
-    
-    #va a buscar el programa al HD
-    #lo carga en memoria
-    #lo pone en qReady
-    
-    def run(self,programName):
+        
+    def run(self,irq):
+        self.handle(irq.pcb)
+        
+    def handle(self,programName):
+        #lo demas handlers reciven por defecto un pcb
+        #pero new recibe un pcb para mantener la creacion
+        #del mismo dentro de una interrupcion
         
         print("new handle in action!")
+        self.load(programName)
         
-        self.handle(programName) 
-        
-    def handle(self,name):
-        self.load(name)
-                
     def load(self,programName):
         programCopy = self.hardDisk.find(programName)
         pcb = self.pcbCreate()
         self.memoryDump(programCopy, pcb)
         self.pcbTable.add(pcb)
         self.qReady.queue(pcb)
+        self.switch()
         
+    def switch(self):
+        if self.cpu.isIdle():
+            self.scheduler.roundRobinQuantum(2)
         
     def memoryDump(self, program, pcb):
        
@@ -50,3 +54,7 @@ class HandlerNew:
     def pcbCreate(self):
         pcbId = self.pcbTable.nextFreeId()
         return PCB(pcbId)
+        
+    def printPcbTable(self):
+        self.pcbTable.printPcbTable()
+        
