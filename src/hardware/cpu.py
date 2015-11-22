@@ -66,6 +66,7 @@ class CPU:
 
         #revisa si el programa va a ejecutar su ultima instruccion
         if self.instruction.instructionType==InstructionType.instructionEND: ## no tiene mas instrucciones
+            print("CPU:procesando instruccion kill/end idP:" , self.pcb.idProcess)
             self.irq = Irq(IrqType.irqKILL,self.pcb)
             self.interruptorManager.handle(self.irq)
         #ejecuta la instruccion

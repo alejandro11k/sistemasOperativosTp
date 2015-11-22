@@ -29,6 +29,9 @@ class IoDevice:
     
     def fetch(self):
         
+        x = self.qio.emptyQ()
+        x
+        
         if self.pcb==None and self.qio.emptyQ():
             print("ioDev:idle")
         
@@ -42,6 +45,7 @@ class IoDevice:
             
             self.irq = Irq(IrqType.irqIOfromIO,self.pcb)
             self.interruptorManager.handle(self.irq)
+            self.pcb=None
 
     def calculateDirection(self):
         result = self.pcb.programCounter + self.pcb.baseDirection 
@@ -58,6 +62,6 @@ class IoDevice:
     def process(self):
 
         self.instruction.process()
-        print("IO Dev:procesando instruccion")
+        print("IO Dev:procesando instruccion idP:" ,self.pcb.idProcess)
         self.pcb.incrementProgramCounter()
         
