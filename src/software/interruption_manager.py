@@ -14,7 +14,7 @@ class InterruptionManager:
         
     def switch(self):
         if self.cpu.isIdle():
-            self.scheduler.roundRobinQuantum(2)
+            self.scheduler.giveOne()
     
     def fetch(self):
         for irq in self.pendingToProcessIrqs :

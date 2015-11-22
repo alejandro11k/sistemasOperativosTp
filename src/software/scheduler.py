@@ -9,7 +9,11 @@ class Schedule:
         self.qReady = qready
         self.cpu = cpu
         
-    def roundRobinQuantum(self,quantum):
+    
+    def giveOne(self):
+        self.__roundRobinQuantum(2)
+    
+    def __roundRobinQuantum(self,quantum):
         
         if self.qReady.isSomeoneReady():
             nextPCB = self.qReady.getFirst()

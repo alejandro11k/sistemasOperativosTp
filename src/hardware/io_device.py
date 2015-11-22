@@ -29,10 +29,11 @@ class IoDevice:
     
     def fetch(self):
         
-        if self.pcb==None:
+        if self.pcb==None and self.qio.emptyQ():
             print("ioDev:idle")
         
         else:
+            self.setPCB()
             
             result = self.calculateDirection()
             self.instruction = self.memory.get(result)

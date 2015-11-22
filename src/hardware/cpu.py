@@ -1,7 +1,7 @@
 from hardware.irq import Irq
 from hardware.irq_type import IrqType
-from software.instruction_type import InstructionType
-from software.instruction import Instruction
+from software.programs_components.instruction_type import InstructionType
+from software.programs_components.instruction import Instruction
 
 class CPU:
 

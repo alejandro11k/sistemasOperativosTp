@@ -6,16 +6,15 @@ from hardware.hard_disk import HardDisk
 
 from software.interruption_manager import InterruptionManager
 from software.pcb import PCB
-from software.instruction import Instruction
-from software.instruction_type import InstructionType
-from software.program import Program
+from software.programs_components.instruction import Instruction
+from software.programs_components.instruction_type import InstructionType
+from software.programs_components.program import Program
 from software.shell import Shell
 from software.pcb_table import PCBTable
 from software.q_ready import QReady
 from software.scheduler import Schedule
 from software.handlers.handler_kill import HandlerKill
 from software.handlers.handler_time_out import HandlerTimeOut
-from software.handlers.handler_io import HandlerIO
 from hardware.irq_type import IrqType
 from software.q_io import QIo
 from hardware.io_device import IoDevice
@@ -111,7 +110,7 @@ class CpuTest(unittest.TestCase):
         #el device conoce la instruccion print
         self.ioDevice.learnInstruction(self.instructionPrint)
         
-        self.clock = Clock(self.cpu,self.interruptionManager)
+        self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice)
         
         
     def pruebaDeEjecucionCpuPrograms(self):

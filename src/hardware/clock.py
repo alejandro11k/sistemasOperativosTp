@@ -4,15 +4,16 @@ from time import sleep
 
 class Clock(Thread):
     
-    def __init__(self,device,interruptionManager):
+    def __init__(self,interruptionManager,cpu,io_dev_1):
         Thread.__init__(self)
-        self.device = device
+        self.cpu = cpu
         self.interruptionManager = interruptionManager
+        self.io_dev_1 = io_dev_1
         
     def pulse(self):
-        self.device.fetch()
+        self.cpu.fetch()
         self.interruptionManager.fetch()
-        
+        self.io_dev_1.fetch()
         
     def run(self):
         Thread.run(self)
