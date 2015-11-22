@@ -13,15 +13,15 @@ from software.shell import Shell
 from software.pcb_table import PCBTable
 from software.q_ready import QReady
 from software.scheduler import Schedule
-from software.handler_kill import HandlerKill
-from software.handler_time_out import HandlerTimeOut
-from software.handler_io import HandlerIO
+from software.handlers.handler_kill import HandlerKill
+from software.handlers.handler_time_out import HandlerTimeOut
+from software.handlers.handler_io import HandlerIO
 from hardware.irq_type import IrqType
 from software.q_io import QIo
 from hardware.io_device import IoDevice
-from software.handler_io_from_cpu import HandlerIOfromCPU
-from software.handler_io_from_io import HandlerIOfromIO
-from software.handler_new import HandlerNew
+from software.handlers.handler_io_from_cpu import HandlerIOfromCPU
+from software.handlers.handler_io_from_io import HandlerIOfromIO
+from software.handlers.handler_new import HandlerNew
 from hardware.clock import Clock
 from time import sleep
 
@@ -47,7 +47,7 @@ class CpuTest(unittest.TestCase):
         self.scheduler = Schedule(self.qReady,self.cpu)
         
         
-        self.interruptionManager = InterruptionManager()
+        self.interruptionManager = InterruptionManager(self.cpu,self.scheduler)
         self.irqTypeKill = IrqType.irqKILL
         self.handlerKill = HandlerKill(self.cpu,self.pcbTable,self.scheduler)
         
@@ -114,18 +114,7 @@ class CpuTest(unittest.TestCase):
         self.clock = Clock(self.cpu,self.interruptionManager)
         
         
-        
-    def pruebaDeEjecucion0(self):
-        
-        self.shell.run("empty_program")
-        self.shell.run("empty_program")
-        
-        self.clock.run()
-        
-        self.sleep(10)
-        
-           
-    def pruebaDeEjecucion1(self):
+    def pruebaDeEjecucionCpuPrograms(self):
         
         self.shell.run("empty_program")
         self.shell.run("empty_program")
@@ -135,6 +124,16 @@ class CpuTest(unittest.TestCase):
         
         self.assertTrue(True)
         
+    def pruebaDeEjecucionCpuAndIoPrograms(self):
+        
+        self.shell.run("empty_program")
+        self.shell.run("io_program")
+        
+        self.clock.run()
+        
+        self.assertTrue(True)
+        
+    '''
     def pruebaDeEjecucion2(self):
         
         self.shell.ps()
@@ -229,6 +228,7 @@ class CpuTest(unittest.TestCase):
         self.shell.ps()
         
         self.assertTrue(True)
+    '''
 
 #unittest.main(verbosity=2)
 

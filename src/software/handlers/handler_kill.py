@@ -27,8 +27,4 @@ class HandlerKill:
             
             self.pcbtable.remove(self.pcb)
             
-            self.switch()
             
-    def switch(self):
-        if self.cpu.isIdle():
-            self.scheduler.roundRobinQuantum(2)

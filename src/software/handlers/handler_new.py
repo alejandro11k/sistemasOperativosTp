@@ -35,11 +35,6 @@ class HandlerNew:
         self.memoryDump(programCopy, pcb)
         self.pcbTable.add(pcb)
         self.qReady.queue(pcb)
-        self.switch()
-        
-    def switch(self):
-        if self.cpu.isIdle():
-            self.scheduler.roundRobinQuantum(2)
         
     def memoryDump(self, program, pcb):
        

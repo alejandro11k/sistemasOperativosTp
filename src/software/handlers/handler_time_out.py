@@ -31,8 +31,3 @@ class HandlerTimeOut:
             
             self.qready.queue(pcb)
             
-            self.switch()
-    
-    def switch(self):
-        if self.cpu.isIdle():
-            self.scheduler.roundRobinQuantum(2)
