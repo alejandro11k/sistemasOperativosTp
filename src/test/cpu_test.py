@@ -21,6 +21,7 @@ from hardware.io_device import IoDevice
 from software.handlers.handler_io_from_cpu import HandlerIOfromCPU
 from software.handlers.handler_io_from_io import HandlerIOfromIO
 from software.handlers.handler_new import HandlerNew
+from software.handlers.handlers import Handlers
 from hardware.clock import Clock
 from time import sleep
 from software.programs_components.programs import Programs
@@ -51,36 +52,21 @@ class CpuTest(unittest.TestCase):
         self.interruptionManager = InterruptionManager(self.cpu,self.scheduler)
         
         self.cpu.setUp(self.interruptionManager)
-        
         self.ioDevice.setUp(self.interruptionManager,self.qIo)
-        self.ioDevice.learnInstruction("PRINT")
-        
         self.ioDevice2.setUp(self.interruptionManager,self.qIo2)
-        self.ioDevice2.learnInstruction("INPUT")
         
         self.shell = Shell(self.interruptionManager)
         
-        self.irqTypeKill = IrqType.irqKILL
-        self.handlerKill = HandlerKill(self.cpu,self.pcbTable,self.scheduler)
+        self.handlers = Handlers(self.interruptionManager,self.cpu,self.pcbTable,self.scheduler,self.qReady,self.hardDisk,self.memory)
         
-        self.irqTypeTimeOut = IrqType.irqTIME_OUT
-        self.handlerTimeOut = HandlerTimeOut(self.cpu,self.qReady,self.scheduler)
+        #el handler conoce el device
+        self.handlers.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
+        self.handlers.handlerIOfromCPU.addDevice(self.ioDevice2, self.qIo2)
         
-        self.irqTypeIOfromCPU = IrqType.irqIOfromCPU
-        self.handlerIOfromCPU = HandlerIOfromCPU(self.cpu)
+        #el device conoce la instruccion
         
-        self.irqTypeIOfromIO = IrqType.irqIOfromIO
-        self.handlerIOfromIO = HandlerIOfromIO(self.qReady)
-        
-        self.irqTypeNew = IrqType.irqNEW
-        self.handlerNew = HandlerNew(self.hardDisk, self.memory, self.pcbTable, self.qReady, self.scheduler,self.cpu)
-
-        self.interruptionManager.register(self.irqTypeKill, self.handlerKill)
-        self.interruptionManager.register(self.irqTypeTimeOut, self.handlerTimeOut)
-        self.interruptionManager.register(self.irqTypeIOfromCPU, self.handlerIOfromCPU)
-        self.interruptionManager.register(self.irqTypeIOfromIO, self.handlerIOfromIO)
-        self.interruptionManager.register(self.irqTypeNew, self.handlerNew)
-        
+        self.ioDevice.learnInstruction(self.programs.instructions['PRINT'])
+        self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
         
         #agrego programas al disco
         self.programs = Programs()
@@ -88,14 +74,6 @@ class CpuTest(unittest.TestCase):
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
-        
-        #el handler conoce el device
-        self.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
-        self.handlerIOfromCPU.addDevice(self.ioDevice2, self.qIo2)
-        #el device conoce la instruccion
-        
-        self.ioDevice.learnInstruction(self.programs.instructions['PRINT'])
-        self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
         
         self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
         
