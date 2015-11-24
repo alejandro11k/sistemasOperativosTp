@@ -6,6 +6,7 @@ class Clock(Thread):
     
     def __init__(self,interruptionManager,cpu,io_dev_1,io_dev_2):
         Thread.__init__(self)
+        self.ciclos = 20
         self.cpu = cpu
         self.interruptionManager = interruptionManager
         self.io_dev_1 = io_dev_1
@@ -19,7 +20,7 @@ class Clock(Thread):
         
     def run(self):
         Thread.run(self)
-        for x in range(1,20):
+        for x in range(1,self.ciclos):
             self.pulse()
             sleep(1)
             x+=1

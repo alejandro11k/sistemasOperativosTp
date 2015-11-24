@@ -10,6 +10,7 @@ class InterruptionManager:
     
     def handle(self, irq):
         self.pendingToProcessIrqs.append(irq)
+        self.switch()
         
         
     def switch(self):

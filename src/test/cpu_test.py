@@ -23,6 +23,7 @@ from software.handlers.handler_io_from_io import HandlerIOfromIO
 from software.handlers.handler_new import HandlerNew
 from hardware.clock import Clock
 from time import sleep
+from software.programs_components.programs import Programs
 
 
 
@@ -80,57 +81,21 @@ class CpuTest(unittest.TestCase):
         self.interruptionManager.register(self.irqTypeIOfromIO, self.handlerIOfromIO)
         self.interruptionManager.register(self.irqTypeNew, self.handlerNew)
         
-        #crep un programa
-        self.instructionEnd = Instruction(InstructionType.instructionEND,"KILL")
-        self.instructionCpu = Instruction(InstructionType.instructionCPU,"SUM")
-        instructions = []
-        instructions.append(self.instructionCpu)
-        instructions.append(self.instructionCpu)
-        instructions.append(self.instructionCpu)
-        instructions.append(self.instructionEnd)
         
-        self.program = Program("empty_program")
-        self.program.compileInstructions(instructions)
+        #agrego programas al disco
+        self.programs = Programs()
         
-        #guardo el programa en el disco rigido
-        self.hardDisk.save(self.program)
-        
-        #creo otro programa
-        instructions = []
-        self.instructionTypeIO = InstructionType.instructionIO
-        self.instructionPrint = Instruction(self.instructionTypeIO,"PRINT")
-        
-        #self.instructionIO = Instruction(InstructionType.instructionIO,"PRINT")
-        instructions.append(self.instructionCpu)
-        instructions.append(self.instructionPrint)
-        instructions.append(self.instructionEnd)
-        
-        self.programIO = Program("io_program")
-        self.programIO.compileInstructions(instructions)
-        
-        self.hardDisk.save(self.programIO)
-        
-        #creo otro programaMas
-        instructions = []
-        self.instructionTypeIO = InstructionType.instructionIO
-        self.instructionInput = Instruction(self.instructionTypeIO,"INPUT")
-        
-        #self.instructionIO = Instruction(InstructionType.instructionIO,"PRINT")
-        instructions.append(self.instructionCpu)
-        instructions.append(self.instructionInput)
-        instructions.append(self.instructionEnd)
-        
-        self.programIO2 = Program("io_program2")
-        self.programIO2.compileInstructions(instructions)
-        
-        self.hardDisk.save(self.programIO2)
+        self.hardDisk.save(self.programs.programs.pop(0))
+        self.hardDisk.save(self.programs.programs.pop(0))
+        self.hardDisk.save(self.programs.programs.pop(0))
         
         #el handler conoce el device
         self.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
         self.handlerIOfromCPU.addDevice(self.ioDevice2, self.qIo2)
-        #el device conoce la instruccion print
-        self.ioDevice.learnInstruction(self.instructionPrint)
-        self.ioDevice2.learnInstruction(self.instructionInput)
+        #el device conoce la instruccion
+        
+        self.ioDevice.learnInstruction(self.programs.instructions['PRINT'])
+        self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
         
         self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
         

@@ -1,4 +1,3 @@
-from dis import Instruction
 class Program:
     
     '''
