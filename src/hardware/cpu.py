@@ -15,10 +15,16 @@ class CPU:
         self.quantum = 0
         
         self.interruptorManager = None
+        
+        self.shell = None
+        
 
     def setUp(self,interruptorManager):
         
         self.interruptorManager = interruptorManager
+        
+    def addShell(self,shell):
+        self.shell = shell        
         
     def fetch(self):
         
@@ -71,7 +77,7 @@ class CPU:
             self.interruptorManager.handle(self.irq)
         #ejecuta la instruccion
         else:
-            self.instruction.process()
+            self.instruction.process(self.shell)
             print("CPU:procesando instruccion idP:" , self.pcb.idProcess)
             self.pcb.incrementProgramCounter()  
             self.quantum = self.quantum - 1

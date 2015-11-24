@@ -1,5 +1,6 @@
 from software.programs_components.program import Program
 from software.programs_components.instruction import Instruction
+from software.programs_components.instruction import RealInstruction
 from software.programs_components.instruction_type import InstructionType
 
 class Programs:
@@ -17,17 +18,20 @@ class Programs:
         self.cpuProgram()
         self.inProgram()
         self.outProgram()
+        self.realInProgram()
             
     def addInstructions(self):
         instructionEnd = Instruction(InstructionType.instructionEND,"END")
         instructionCpu = Instruction(InstructionType.instructionCPU,"CPU")
         instructionPrint = Instruction(InstructionType.instructionIO,"PRINT")
         instructionInput = Instruction(InstructionType.instructionIO,"INPUT")
+        instructionRealInput = RealInstruction(InstructionType.instructionIO,"realINPUT")
         
         self.instructions['END'] = instructionEnd
         self.instructions['CPU'] = instructionCpu
         self.instructions['PRINT'] = instructionPrint
         self.instructions['INPUT'] = instructionInput
+        self.instructions['realINPUT'] = instructionRealInput
     
     def cpuProgram(self):
         
@@ -63,6 +67,17 @@ class Programs:
         instructions.append(self.instructions["END"])
         
         program = Program("io_program2")
+        program.compileInstructions(instructions)
+        
+        self.programs.append(program)
+        
+    def realInProgram(self):
+        instructions = []
+        instructions.append(self.instructions["realINPUT"])
+        instructions.append(self.instructions["CPU"])
+        instructions.append(self.instructions["END"])
+        
+        program = Program("realInput")
         program.compileInstructions(instructions)
         
         self.programs.append(program)

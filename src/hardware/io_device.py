@@ -60,7 +60,7 @@ class IoDevice:
         
     def process(self):
 
-        self.instruction.process()
+        self.instruction.process(self.interruptorManager)
         print("IO Dev:procesando instruccion idP:" ,self.name,":",self.pcb.idProcess)
         self.pcb.incrementProgramCounter()
         

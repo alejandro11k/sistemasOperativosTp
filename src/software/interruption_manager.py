@@ -1,4 +1,6 @@
-from hardware.cpu import CPU
+from hardware.irq_type import IrqType
+from hardware.irq import Irq
+
 class InterruptionManager:
     
     def __init__(self,cpu,scheduler):
@@ -36,4 +38,8 @@ class InterruptionManager:
     def getHandler(self,irqType):
         handler = self.irqRoutines[irqType.name]
         return handler   
+    
+    def runProgram(self,nameProgram):
+        self.irq = Irq(IrqType.irqNEW, nameProgram)
+        self.handle(self.irq)
 

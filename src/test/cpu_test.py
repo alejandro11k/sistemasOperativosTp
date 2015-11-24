@@ -57,6 +57,7 @@ class CpuTest(unittest.TestCase):
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
+        self.hardDisk.save(self.programs.programs.pop(0))
         
         #el device conoce la instruccion
         
@@ -86,6 +87,12 @@ class CpuTest(unittest.TestCase):
         self.clock.run()
         
         self.assertTrue(True)
+        
+    def prubaComplex(self):
+        self.ioDevice2.learnInstruction(self.programs.instructions['realINPUT'])
+        self.cpu.addShell(self.shell)
+        self.shell.run("realInput")
+        self.clock.run()
         
     '''
     def pruebaDeEjecucion2(self):
