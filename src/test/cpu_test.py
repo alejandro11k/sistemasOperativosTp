@@ -3,36 +3,24 @@ import unittest
 from hardware.memory import Memory
 from hardware.cpu import CPU
 from hardware.hard_disk import HardDisk
-
 from software.interruption_manager import InterruptionManager
 from software.pcb import PCB
-from software.programs_components.instruction import Instruction
-from software.programs_components.instruction_type import InstructionType
 from software.programs_components.program import Program
 from software.shell import Shell
 from software.pcb_table import PCBTable
 from software.q_ready import QReady
 from software.scheduler import Schedule
-from software.handlers.handler_kill import HandlerKill
-from software.handlers.handler_time_out import HandlerTimeOut
-from hardware.irq_type import IrqType
 from software.q_io import QIo
 from hardware.io_device import IoDevice
-from software.handlers.handler_io_from_cpu import HandlerIOfromCPU
-from software.handlers.handler_io_from_io import HandlerIOfromIO
-from software.handlers.handler_new import HandlerNew
 from software.handlers.handlers import Handlers
 from hardware.clock import Clock
 from time import sleep
 from software.programs_components.programs import Programs
 
-
-
 class CpuTest(unittest.TestCase):
 
     def setUp(self):
   
-
         #hardware
         #construyo el ordenador
         self.hardDisk = HardDisk()
@@ -63,17 +51,17 @@ class CpuTest(unittest.TestCase):
         self.handlers.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
         self.handlers.handlerIOfromCPU.addDevice(self.ioDevice2, self.qIo2)
         
-        #el device conoce la instruccion
-        
-        self.ioDevice.learnInstruction(self.programs.instructions['PRINT'])
-        self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
-        
         #agrego programas al disco
         self.programs = Programs()
         
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
+        
+        #el device conoce la instruccion
+        
+        self.ioDevice.learnInstruction(self.programs.instructions['PRINT'])
+        self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
         
         self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
         
@@ -200,23 +188,13 @@ class CpuTest(unittest.TestCase):
 
 '''
 import unittest
-
-
 class Test(unittest.TestCase):
-
-
     def setUp(self):
         pass
-
-
     def tearDown(self):
         pass
-
-
     def testName(self):
         pass
-
-
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
