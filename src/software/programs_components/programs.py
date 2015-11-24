@@ -41,7 +41,7 @@ class Programs:
         instructions.append(self.instructions['CPU'])
         instructions.append(self.instructions['END'])
         
-        program = Program("empty_program")
+        program = Program("empty")
         program.compileInstructions(instructions)
         
         self.programs.append(program)
@@ -54,7 +54,7 @@ class Programs:
         instructions.append(self.instructions["PRINT"])
         instructions.append(self.instructions["END"])
         
-        program = Program("io_program")
+        program = Program("io01")
         program.compileInstructions(instructions)
         
         self.programs.append(program)
@@ -66,13 +66,16 @@ class Programs:
         instructions.append(self.instructions["INPUT"])
         instructions.append(self.instructions["END"])
         
-        program = Program("io_program2")
+        program = Program("io02")
         program.compileInstructions(instructions)
         
         self.programs.append(program)
         
     def realInProgram(self):
         instructions = []
+        instructions.append(self.instructions["realINPUT"])
+        instructions.append(self.instructions["realINPUT"])
+        instructions.append(self.instructions["realINPUT"])
         instructions.append(self.instructions["realINPUT"])
         instructions.append(self.instructions["CPU"])
         instructions.append(self.instructions["END"])

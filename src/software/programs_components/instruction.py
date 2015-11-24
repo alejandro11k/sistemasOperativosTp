@@ -18,7 +18,7 @@ class RealInstruction(Instruction):
         
     def process(self,interruptionManager):
         if self.name=="realINPUT":
-            self.nameProgram=input("accion:")
+            self.nameProgram=input("PROGRAMA A EJECUTAR<:>")
             interruptionManager.runProgram(self.nameProgram) 
     
     def isIO(self):
