@@ -14,4 +14,15 @@ class Memory:
         value = self.memory[direction]
         return value
 
+class LimitedMemory(Memory):
+    
+    def __init__(self,blocks):
+        Memory.__init__(self)
+        self.blocks = blocks-1
+        
+    def ilegalAdrress(self,address):
+        return address>self.blocks
+        
+    def size(self):
+        return self.blocks
     

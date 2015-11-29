@@ -19,3 +19,9 @@ class PCB:
     def setState(self, state):
         self.state = state
         
+class PCB2(PCB):
+    
+    def __init__(self, idProcess, program):
+        PCB.__init__(self, idProcess)
+        self.program = program
+        

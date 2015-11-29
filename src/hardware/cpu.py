@@ -38,6 +38,8 @@ class CPU:
                 
         else:
             
+            # READ INSTRUCTION FROM MEMORY
+            
             result = self.calculateDirection()
             self.instruction = self.memory.get(result)
             
