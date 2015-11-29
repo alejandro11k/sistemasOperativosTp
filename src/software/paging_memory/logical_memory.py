@@ -9,8 +9,7 @@ class LogicalMemory(object):
     '''
     classdocs
     '''
-
-
+    
     def __init__(self, memory,pageSize):
         '''
         Constructor
@@ -30,18 +29,30 @@ class LogicalMemory(object):
         usedPages = len(self.pages)
         if usedPages<self.numberOfPages():
             return usedPages
+        else:
+            return -1
             
     def makePage(self,idProcess,pageNumber):
         n = self.freePage()
-        self.pages[n] = Page(idProcess,pageNumber)
+        self.pages[n] = Page(n,idProcess,pageNumber)
+        return n
     
+    def dumpPage(self,realPage,page):
+        firstIntructionNumber = self.pageSize*page
+        self.pages[realPage].dump(self.memory)
+        
+        
     def get(self,pcb):
         page = self.pcb.programCounter / self.pageSize
         positionInFrame = self.pcb.programCounter % self.pageSize
         
     ## where is_
         ## nowhere, to Load
-            ## are free frames -> dump, dump, load
+            ## are free frames -> create page, dump, load
+            
+        n = self.makePage(pcb.idProcess,page)
+        self.dumpPage(n,page)
+            
             ## need to swap a frame -> later, dump, load
         ## in any page
             # in local Memory -> load
