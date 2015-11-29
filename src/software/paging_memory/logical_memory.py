@@ -35,3 +35,15 @@ class LogicalMemory(object):
         n = self.freePage()
         self.pages[n] = Page(idProcess,pageNumber)
     
+    def get(self,pcb):
+        page = self.pcb.programCounter / self.pageSize
+        positionInFrame = self.pcb.programCounter % self.pageSize
+        
+    ## where is_
+        ## nowhere, to Load
+            ## are free frames -> dump, dump, load
+            ## need to swap a frame -> later, dump, load
+        ## in any page
+            # in local Memory -> load
+            # in virtual memory -> swap a frame, dump, load
+            
