@@ -71,6 +71,12 @@ class CpuTest(unittest.TestCase):
         
         self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
         
+    def pruebaDeEjecucionCpuProgram(self):
+        
+        self.shell.run("empty_program")
+        self.clock.run()
+        
+        self.assertTrue(True)
         
     def pruebaDeEjecucionCpuPrograms(self):
         

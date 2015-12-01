@@ -49,15 +49,29 @@ class LogicalMemory(object):
         
     ## where is_
         ## nowhere, to Load
-            ## are free frames -> create page, dump, load
-            
-        n = self.makePage()
-        self.dumpPage(n,pcb,page)
-        return self.getInstruction(n,page,positionInFrame)
-            
+        
+        if not (self.isDumped(pcb.idProcess)):
+            ## are free frames -> create page, dump, load    
+            n = self.makePage()
+            self.dumpPage(n,pcb,page)
             ## need to swap a frame -> later, dump, load
         ## in any page
+        else:
+            n = 0
             # in local Memory -> load
             # in virtual memory -> swap a frame, dump, load
+            
+        return self.getInstruction(n,page,positionInFrame)
+    
+    
+    def isDumped(self,idProcess):
+        value = False
+        for n in self.pages:
+            value = value or self.pages[n].isPid(idProcess,None)
+            
+        return value
+    
     def getInstruction(self,realPage,page,positionInFrame):
         return self.pages[realPage].get(page,positionInFrame,self.memory)
+    
+    
