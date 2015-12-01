@@ -4,9 +4,9 @@ from hardware.irq_type import IrqType
 
 class IoDevice:
 
-    def __init__(self, name, memory):
+    def __init__(self, name):
         self.name = name
-        self.memory = memory
+        self.memory = None
         
         self.pcb = None
         self.instructions = set()
@@ -16,10 +16,11 @@ class IoDevice:
         self.interruptorManager = None
 
 
-    def setUp(self,interruptorManager,qio):
+    def setUp(self,interruptorManager,qio,memory):
         
         self.interruptorManager = interruptorManager
         self.qio = qio
+        self.memory = memory
     
     def knownInstruction(self,instruction):
         return instruction in self.instructions

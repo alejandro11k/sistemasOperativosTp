@@ -32,9 +32,9 @@ class LogicalMemory(object):
         else:
             return -1
             
-    def makePage(self,idProcess,pageNumber):
+    def makePage(self):
         n = self.freePage()
-        self.pages[n] = Page(n,idProcess,pageNumber)
+        self.pages[n] = Page(n,self.pageSize)
         return n
     
     def dumpPage(self,realPage,page):
@@ -50,8 +50,8 @@ class LogicalMemory(object):
         ## nowhere, to Load
             ## are free frames -> create page, dump, load
             
-        n = self.makePage(pcb.idProcess,page)
-        self.dumpPage(n,page)
+        n = self.makePage()
+        self.dumpPage(n,pcb,page)
             
             ## need to swap a frame -> later, dump, load
         ## in any page

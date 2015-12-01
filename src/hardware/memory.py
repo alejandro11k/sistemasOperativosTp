@@ -26,3 +26,11 @@ class LimitedMemory(Memory):
     def size(self):
         return self.blocks
     
+    def put(self, address,instruction):
+
+        if self.ilegalAdrress(address):
+            print("OUT OF MEMORY")
+        else:
+            self.memory[address] = instruction
+            
+    

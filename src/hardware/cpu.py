@@ -2,6 +2,7 @@ from hardware.irq import Irq
 from hardware.irq_type import IrqType
 from software.programs_components.instruction_type import InstructionType
 from software.programs_components.instruction import Instruction
+from software.paging_memory.logical_memory import LogicalMemory
 
 class CPU:
 
@@ -15,10 +16,11 @@ class CPU:
         self.quantum = 0
         
         self.interruptorManager = None
-
-    def setUp(self,interruptorManager):
+        
+    def setUp(self,interruptorManager, logicalMemory):
         
         self.interruptorManager = interruptorManager
+        self.memory=logicalMemory
         
     def fetch(self):
         

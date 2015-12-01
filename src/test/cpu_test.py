@@ -16,6 +16,7 @@ from software.handlers.handlers import Handlers
 from hardware.clock import Clock
 from time import sleep
 from software.programs_components.programs import Programs
+from software.paging_memory.logical_memory import LogicalMemory
 
 class CpuTest(unittest.TestCase):
 
@@ -26,22 +27,22 @@ class CpuTest(unittest.TestCase):
         self.hardDisk = HardDisk()
         self.memory = Memory()
         self.cpu = CPU(self.memory)
-        self.ioDevice = IoDevice("IOdevice OUT",self.memory)
-        self.ioDevice2 = IoDevice("IOdevice IN",self.memory)
+        self.ioDevice = IoDevice("IOdevice OUT")
+        self.ioDevice2 = IoDevice("IOdevice IN")
 
         #kernel
         self.qReady = QReady()
         self.qIo = QIo()
         self.qIo2 = QIo()
         self.pcbTable = PCBTable()
-        
         self.scheduler = Schedule(self.qReady,self.cpu)
         
+     
         self.interruptionManager = InterruptionManager(self.cpu,self.scheduler)
+        self.cpu.setUp(self.interruptionManager,self.memory)
         
-        self.cpu.setUp(self.interruptionManager)
-        self.ioDevice.setUp(self.interruptionManager,self.qIo)
-        self.ioDevice2.setUp(self.interruptionManager,self.qIo2)
+        self.ioDevice.setUp(self.interruptionManager,self.qIo,self.memory)
+        self.ioDevice2.setUp(self.interruptionManager,self.qIo2,self.memory)
         
         self.shell = Shell(self.interruptionManager)
         
