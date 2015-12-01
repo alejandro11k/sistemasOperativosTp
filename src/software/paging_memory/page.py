@@ -35,10 +35,9 @@ class Page(object):
                 memory.put(self.pageId+n,instruction)
             
             # record a number to calculate longevidad, NO! --> delegate to read!
-            
-        
-    def get(self,pcb,pageNumber,memory):
-        address = 0
-        memory.get(address) 
+    
+    def get(self,page,positionInFrame,memory):
+        memoryFrame = self.pageId*self.pageSize
+        return memory.get(memoryFrame+positionInFrame)
     
         
