@@ -42,8 +42,8 @@ class CPU:
             
             # READ INSTRUCTION FROM MEMORY
             
-            result = self.calculateDirection()
-            self.instruction = self.memory.get(result)
+            #result = self.calculateDirection() #this would be nextInstructionNumber
+            self.instruction = self.memory.get(self.pcb)
             
             # IO?
             # si la instruccion es de IO la que puede ser de IO es la instruccion del programa
@@ -58,6 +58,7 @@ class CPU:
                 self.process()
 
     def calculateDirection(self):
+        #DEPRECATED IN NEW MEMORY MODEL
         result = self.pcb.programCounter + self.pcb.baseDirection 
         return result
 

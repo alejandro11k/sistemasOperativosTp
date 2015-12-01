@@ -37,14 +37,14 @@ class LogicalMemory(object):
         self.pages[n] = Page(n,self.pageSize)
         return n
     
-    def dumpPage(self,realPage,page):
+    def dumpPage(self,realPage,pcb,page):
         firstIntructionNumber = self.pageSize*page
-        self.pages[realPage].dump(self.memory)
+        self.pages[realPage].dump(pcb,page,self.memory)
         
         
     def get(self,pcb):
-        page = self.pcb.programCounter / self.pageSize
-        positionInFrame = self.pcb.programCounter % self.pageSize
+        page = pcb.programCounter / self.pageSize
+        positionInFrame = pcb.programCounter % self.pageSize
         
     ## where is_
         ## nowhere, to Load
@@ -52,9 +52,11 @@ class LogicalMemory(object):
             
         n = self.makePage()
         self.dumpPage(n,pcb,page)
+        self.getInstruction(n,pcb,page)
             
             ## need to swap a frame -> later, dump, load
         ## in any page
             # in local Memory -> load
             # in virtual memory -> swap a frame, dump, load
-            
+    def getInstruction(self,realPage,pcb,page):
+        self.pages[realPage].get(pcb,page,self.memory)

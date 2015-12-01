@@ -3,6 +3,7 @@ from software.handlers.handler_io_from_cpu import HandlerIOfromCPU
 from software.handlers.handler_io_from_io import HandlerIOfromIO
 from software.handlers.handler_kill import HandlerKill
 from software.handlers.handler_new import HandlerNew
+from software.handlers.handler_new import HandlerNew2
 from software.handlers.handler_process import HandlerProcess
 from software.handlers.handler_time_out import HandlerTimeOut
 
@@ -19,7 +20,7 @@ class Handlers:
         self.handlerTimeOut = HandlerTimeOut(cpu,qReady,scheduler)
         self.handlerIOfromCPU = HandlerIOfromCPU(cpu)
         self.handlerIOfromIO = HandlerIOfromIO(qReady)
-        self.handlerNew = HandlerNew(hardDisk,memory,pcbTable,qReady,scheduler,cpu)
+        self.handlerNew = HandlerNew2(hardDisk,memory,pcbTable,qReady,scheduler,cpu)
 
     def registerHandlers(self,interruptionManager):
         interruptionManager.register(IrqType.irqKILL, self.handlerKill)

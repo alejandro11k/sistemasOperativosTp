@@ -1,6 +1,6 @@
 import unittest
 
-from hardware.memory import Memory
+from hardware.memory import Memory, LimitedMemory
 from hardware.cpu import CPU
 from hardware.hard_disk import HardDisk
 from software.interruption_manager import InterruptionManager
@@ -25,7 +25,8 @@ class CpuTest(unittest.TestCase):
         #hardware
         #construyo el ordenador
         self.hardDisk = HardDisk()
-        self.memory = Memory()
+        #self.memory = Memory()
+        self.memory = LimitedMemory(80)
         self.cpu = CPU(self.memory)
         self.ioDevice = IoDevice("IOdevice OUT")
         self.ioDevice2 = IoDevice("IOdevice IN")
@@ -37,7 +38,11 @@ class CpuTest(unittest.TestCase):
         self.pcbTable = PCBTable()
         self.scheduler = Schedule(self.qReady,self.cpu)
         
-     
+        #test new memory model, need change irqNew to irqNew2 in handler class
+        self.realMemory = self.memory
+        pageSize = 4 # FRAME SIZE
+        self.memory = LogicalMemory(self.memory,pageSize)
+        
         self.interruptionManager = InterruptionManager(self.cpu,self.scheduler)
         self.cpu.setUp(self.interruptionManager,self.memory)
         

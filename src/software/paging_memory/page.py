@@ -30,13 +30,15 @@ class Page(object):
             
             for n in range(self.pageSize):
                 # uncalculated N to get instruction!!!!!!!!!!!!!!!!!!!!!!!!! :(
-                instruction = pcb.program.getInstrucion(n)
+                instruction = pcb.program.getInstruction(n)
                 # the first pos in memory -> pageId
                 memory.put(self.pageId+n,instruction)
             
             # record a number to calculate longevidad, NO! --> delegate to read!
             
         
-        
+    def get(self,pcb,pageNumber,memory):
+        address = 0
+        memory.get(address) 
     
         
