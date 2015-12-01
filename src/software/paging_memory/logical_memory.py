@@ -4,6 +4,7 @@ Created on Nov 29, 2015
 @author: alejandrok
 '''
 from software.paging_memory.page import Page 
+from idlelib.ColorDelegator import idprog
 
 class LogicalMemory(object):
     '''
@@ -23,7 +24,7 @@ class LogicalMemory(object):
         return self.pageSize % self.memory.size() == 0
     
     def numberOfPages(self):
-        return self.pageSize / self.memory.size()
+        return self.memory.size() / self.pageSize
     
     def freePage(self):
         usedPages = len(self.pages)
@@ -43,35 +44,43 @@ class LogicalMemory(object):
         
         
     def get(self,pcb):
-        page = pcb.programCounter / self.pageSize
+        page = pcb.programCounter // self.pageSize
+#        page = int(round(page))
         positionInFrame = pcb.programCounter % self.pageSize
-        #page = int(round(page))
+        
+        print("page:",page,"pos:",positionInFrame)
+        
         
     ## where is_
         ## nowhere, to Load
         
-        if not (self.isDumped(pcb.idProcess)):
+        if not (self.isDumped(pcb.idProcess,page)):
             ## are free frames -> create page, dump, load    
             n = self.makePage()
             self.dumpPage(n,pcb,page)
             ## need to swap a frame -> later, dump, load
         ## in any page
         else:
-            n = 0
+            n = self.dumpedPageFromMemory(pcb.idProcess,page)
             # in local Memory -> load
             # in virtual memory -> swap a frame, dump, load
             
         return self.getInstruction(n,page,positionInFrame)
     
     
-    def isDumped(self,idProcess):
+    def isDumped(self,idProcess,page):
         value = False
         for n in self.pages:
-            value = value or self.pages[n].isPid(idProcess,None)
+            value = value or self.pages[n].isPid(idProcess,page)
             
         return value
     
-    def getInstruction(self,realPage,page,positionInFrame):
-        return self.pages[realPage].get(page,positionInFrame,self.memory)
+    def dumpedPageFromMemory(self,idProcess,page):
+        for n in self.pages:
+            if self.pages[n].isPid(idProcess,page):
+                return n
+        
+    def getInstruction(self,n,page,positionInFrame):
+        return self.pages[n].get(page,positionInFrame,self.memory)
     
     

@@ -17,6 +17,7 @@ class Programs:
         self.cpuProgram()
         self.inProgram()
         self.outProgram()
+        self.longCpuProgram()
             
     def addInstructions(self):
         instructionEnd = Instruction(InstructionType.instructionEND,"END")
@@ -38,6 +39,21 @@ class Programs:
         instructions.append(self.instructions['END'])
         
         program = Program("empty_program")
+        program.compileInstructions(instructions)
+        
+        self.programs.append(program)
+        
+    def longCpuProgram(self):
+        
+        instructions = []
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions['END'])
+        
+        program = Program("empty_program2")
         program.compileInstructions(instructions)
         
         self.programs.append(program)

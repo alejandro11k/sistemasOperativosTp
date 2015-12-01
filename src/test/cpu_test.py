@@ -63,6 +63,7 @@ class CpuTest(unittest.TestCase):
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
         self.hardDisk.save(self.programs.programs.pop(0))
+        self.hardDisk.save(self.programs.programs.pop(0))
         
         #el device conoce la instruccion
         
@@ -73,7 +74,8 @@ class CpuTest(unittest.TestCase):
         
     def pruebaDeEjecucionCpuProgram(self):
         
-        self.shell.run("empty_program")
+        self.shell.run("empty_program2")
+        self.shell.run("empty_program2")
         self.clock.run()
         
         self.assertTrue(True)

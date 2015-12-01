@@ -38,8 +38,8 @@ class IoDevice:
         else:
             self.setPCB()
             
-            result = self.calculateDirection()
-            self.instruction = self.memory.get(result)
+            #result = self.calculateDirection()
+            self.instruction = self.memory.get(self.pcb)
             
             self.process()
             

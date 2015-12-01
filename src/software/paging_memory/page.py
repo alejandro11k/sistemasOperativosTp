@@ -20,7 +20,7 @@ class Page(object):
         self.pageSize = pageSize
         
     def isPid(self,idProcess,pageNumber):
-        return self.pcb.idProcess==idProcess #and self.pageNumber==pageNumber
+        return self.pcb.idProcess==idProcess and self.pageNumber==pageNumber
     
     def dump(self,pcb,pageNumber,memory):
         # needs
@@ -29,13 +29,19 @@ class Page(object):
             # for the moment the pcb know de program pcb2 class
             
             for n in range(self.pageSize):
+                print("pageID:",self.pageId)
                 # uncalculated N to get instruction!!!!!!!!!!!!!!!!!!!!!!!!! :(
-                instruction = pcb.program.getInstruction(n)
+                nextI = n+(self.pageSize*pageNumber)
+                if nextI<pcb.program.programLength():
+                    instruction = pcb.program.getInstruction(nextI)
                 # the first pos in memory -> pageId
-                memory.put(self.pageId+n,instruction)
+                # IDpage as the same as frame yet! resolve!!!!!!!!!!!!!!!!!!!!
+                    print("stupidNumber:",self.pageId*self.pageSize+n)
+                    memory.put(self.pageId*self.pageSize+n,instruction)
             
             # record a number to calculate longevidad, NO! --> delegate to read!
             self.pcb = pcb
+            self.pageNumber = pageNumber
     
     def get(self,page,positionInFrame,memory):
         memoryFrame = self.pageId*self.pageSize
