@@ -31,7 +31,7 @@ class LogicalMemory(object):
         if usedPages<self.numberOfPages():
             return usedPages
         else:
-            return -1
+            print("SIN MEMORIA!!! ...sin marcos... ")
             
     def makePage(self):
         n = self.freePage()

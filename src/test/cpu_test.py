@@ -26,7 +26,7 @@ class CpuTest(unittest.TestCase):
         #construyo el ordenador
         self.hardDisk = HardDisk()
         #self.memory = Memory()
-        self.memory = LimitedMemory(80)
+        self.memory = LimitedMemory(12)
         self.cpu = CPU(self.memory)
         self.ioDevice = IoDevice("IOdevice OUT")
         self.ioDevice2 = IoDevice("IOdevice IN")
