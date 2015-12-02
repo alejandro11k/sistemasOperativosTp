@@ -23,7 +23,7 @@ class Page(object):
     def isPid(self,idProcess,pageNumber):
         return self.pcb.idProcess==idProcess and self.pageNumber==pageNumber
     
-    def dump(self,pcb,pageNumber,memory):
+    def dump(self,pcb,pageNumber,memory,frame):
         # needs
             # instructions quantity to dump, pageSize
             # the instructions! <- from pcb?... acces to hardDisc?
@@ -38,16 +38,19 @@ class Page(object):
                 # the first pos in memory -> pageId
                 # IDpage as the same as frame yet! resolve!!!!!!!!!!!!!!!!!!!!
                     print("stupidNumber:",self.pageId*self.pageSize+n)
-                    memory.put(self.pageId*self.pageSize+n,instruction)
+                    baseD = frame.firstMemoryDirection
+                    memory.put(baseD*self.pageSize+n,instruction)
                     self.isInFrame = True
+                    frame.isFree = False
+                    frame.page = self.pageId
             
             # record a number to calculate longevidad, NO! --> delegate to read!
             self.pcb = pcb
             self.pageNumber = pageNumber
     
-    def get(self,page,positionInFrame,memory):
+    def get(self,page,frame,positionInFrame,memory):
         
-        memoryFrame = self.pageId*self.pageSize
+        memoryFrame = frame.firstMemoryDirection*self.pageSize
         return memory.get(memoryFrame+positionInFrame)
     
         
