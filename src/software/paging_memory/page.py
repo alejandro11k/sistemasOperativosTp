@@ -18,6 +18,7 @@ class Page(object):
         self.pcb = None
         self.pageNumber = None
         self.pageSize = pageSize
+        self.isInFrame = False
         
     def isPid(self,idProcess,pageNumber):
         return self.pcb.idProcess==idProcess and self.pageNumber==pageNumber
@@ -38,12 +39,14 @@ class Page(object):
                 # IDpage as the same as frame yet! resolve!!!!!!!!!!!!!!!!!!!!
                     print("stupidNumber:",self.pageId*self.pageSize+n)
                     memory.put(self.pageId*self.pageSize+n,instruction)
+                    self.isInFrame = True
             
             # record a number to calculate longevidad, NO! --> delegate to read!
             self.pcb = pcb
             self.pageNumber = pageNumber
     
     def get(self,page,positionInFrame,memory):
+        
         memoryFrame = self.pageId*self.pageSize
         return memory.get(memoryFrame+positionInFrame)
     

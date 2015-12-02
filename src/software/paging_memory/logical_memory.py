@@ -1,8 +1,4 @@
-'''
-Created on Nov 29, 2015
-
-@author: alejandrok
-'''
+from software.paging_memory.frame import Frame
 from software.paging_memory.page import Page 
 from idlelib.ColorDelegator import idprog
 
@@ -19,6 +15,13 @@ class LogicalMemory(object):
         self.pageSize = pageSize
         self.pages = {}
         self.virtualMemory = {}
+        self.frames = {}
+        self.initializeFrame()
+        
+    def initializeFrame(self):
+        frameQuantity = self.memory.size() + 1 / self.pageSize
+        for n in range(frameQuantity):
+            self.frames[n]= Frame(n,self.pageSize)
         
     def pagesOK(self):
         return self.pageSize % self.memory.size() == 0
@@ -39,13 +42,13 @@ class LogicalMemory(object):
         return n
     
     def dumpPage(self,realPage,pcb,page):
-        firstIntructionNumber = self.pageSize*page
+        #firstIntructionNumber = self.pageSize*page
         self.pages[realPage].dump(pcb,page,self.memory)
         
         
     def get(self,pcb):
+        
         page = pcb.programCounter // self.pageSize
-#        page = int(round(page))
         positionInFrame = pcb.programCounter % self.pageSize
         
         print("page:",page,"pos:",positionInFrame)
@@ -65,6 +68,10 @@ class LogicalMemory(object):
             # in local Memory -> load
             # in virtual memory -> swap a frame, dump, load
             
+        if not n.isInFrame:
+            #swap
+            pass
+        
         return self.getInstruction(n,page,positionInFrame)
     
     
