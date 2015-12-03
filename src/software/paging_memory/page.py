@@ -42,8 +42,7 @@ class Page(object):
                     address = baseD+n
                     memory.put(address,instruction)
                     self.isInFrame = True
-                    frame.isFree = False
-                    frame.page = self.pageId
+                    frame.setPage(self.pageId)
             
             # record a number to calculate longevidad, NO! --> delegate to read!
             self.pcb = pcb

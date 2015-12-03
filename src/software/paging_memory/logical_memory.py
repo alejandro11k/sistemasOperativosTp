@@ -51,16 +51,18 @@ class LogicalMemory(object):
                 freeFrame = self.frames[n]
         return freeFrame
         
-    def swapFrame(self):
-        pass
+    def swapToDisk(self,frameToSwap):
+        print('SWAPING')
+        page = frameToSwap.page
+        self.pages[page].isInFrame = False
+        self.virtualMemory[page]=frameToSwap.bckpInstrutionsFromMemory(self.memory)
+        frameToSwap.reUse()
         
     def freeFrame(self):
         freeFrame = None
         if not self.anyFreeFrame():
             freeFrame = self.lastRU()
             self.swapToDisk(freeFrame)
-            #tell to page
-            #tell to frame
         else:
             freeFrame = self.takeFreeFrame()
                 
@@ -107,7 +109,9 @@ class LogicalMemory(object):
             
         if not (self.pages[n].isInFrame):
             #swap
-            pass
+            print('the frame are not here')
+            #get a free frame
+            #restore the saved frame
         else:
             frame = self.frame(n)
         
