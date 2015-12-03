@@ -111,7 +111,14 @@ class LogicalMemory(object):
             #swap
             print('the frame are not here')
             #get a free frame
+            frame = self.freeFrame()
             #restore the saved frame
+            instructions = self.virtualMemory[n]
+            frame.setPage(n,len(instructions))
+            
+            frame.restoreInstructionsToMemory(instructions,self.memory)
+            self.pages[n].isInFrame = True
+            
         else:
             frame = self.frame(n)
         

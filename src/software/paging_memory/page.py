@@ -29,22 +29,22 @@ class Page(object):
             # the instructions! <- from pcb?... acces to hardDisc?
             # for the moment the pcb know de program pcb2 class
             
+            count = 0
+            
             for n in range(self.pageSize):
                 print("pageID:",self.pageId)
-                # uncalculated N to get instruction!!!!!!!!!!!!!!!!!!!!!!!!! :(
+                
                 nextI = n+(self.pageSize*pageNumber)
                 if nextI<pcb.program.programLength():
                     instruction = pcb.program.getInstruction(nextI)
-                # the first pos in memory -> pageId
-                # IDpage as the same as frame yet! resolve!!!!!!!!!!!!!!!!!!!!
-                    print("stupidNumber:",self.pageId*self.pageSize+n)
+                    print("OLD stupidNumber:",self.pageId*self.pageSize+n)
                     baseD = frame.firstMemoryDirection
                     address = baseD+n
                     memory.put(address,instruction)
-                    self.isInFrame = True
-                    frame.setPage(self.pageId)
-            
-            # record a number to calculate longevidad, NO! --> delegate to read!
+                    count+=1
+                    
+            self.isInFrame = True
+            frame.setPage(self.pageId,count)
             self.pcb = pcb
             self.pageNumber = pageNumber
     
