@@ -4,9 +4,9 @@ from time import sleep
 
 class Clock(Thread):
     
-    def __init__(self,interruptionManager,cpu,io_dev_1,io_dev_2):
+    def __init__(self,interruptionManager,cpu,io_dev_1,io_dev_2,ciclos):
         Thread.__init__(self)
-        self.ciclos = 20
+        self.ciclos = ciclos
         self.cpu = cpu
         self.interruptionManager = interruptionManager
         self.io_dev_1 = io_dev_1

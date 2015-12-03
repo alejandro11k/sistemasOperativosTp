@@ -5,7 +5,13 @@ class HardDisk:
         self.programs = {}
 
     def find(self,programName):
-        return self.programs[programName]
+        if programName in self.programs:
+            return self.programs[programName]
+        else:
+            return None
     
     def save(self,program):
         self.programs[program.name] = program
+        
+    def ls(self):
+        return list(self.programs.keys())

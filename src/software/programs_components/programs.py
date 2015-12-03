@@ -19,6 +19,7 @@ class Programs:
         self.outProgram()
         self.longCpuProgram()
         self.realImputProgram()
+        self.longProgram()
             
     def addInstructions(self):
         instructionEnd = Instruction(InstructionType.instructionEND,"END")
@@ -76,6 +77,26 @@ class Programs:
         
         self.programs.append(program)
         
+    def longProgram(self):
+        
+        instructions = []
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions["PRINT"])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions["INPUT"])
+        instructions.append(self.instructions["PRINT"])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions["PRINT"])
+        instructions.append(self.instructions["INPUT"])
+        instructions.append(self.instructions['CPU'])
+        instructions.append(self.instructions["INPUT"])
+        instructions.append(self.instructions['END'])
+        
+        program = Program("long")
+        program.compileInstructions(instructions)
+        
+        self.programs.append(program)
         
     def outProgram(self):
         

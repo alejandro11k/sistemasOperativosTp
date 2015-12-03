@@ -10,13 +10,14 @@ from sched import scheduler
 
 class HandlerNew2:
     
-    def __init__(self,hardDisk, memory, pcbTable, qReady, scheduler,cpu):
+    def __init__(self,hardDisk, memory, pcbTable, qReady, scheduler,cpu,shell):
         self.pcbTable = pcbTable
         self.hardDisk = hardDisk
         self.memory = memory
         self.qReady = qReady
         self.scheduler = scheduler
         self.cpu = cpu
+        self.shell = shell
         
         
     def run(self,irq):
@@ -32,10 +33,16 @@ class HandlerNew2:
         
     def load(self,programName):
         programCopy = self.hardDisk.find(programName)
-        pcb = self.pcbCreate(programCopy)
-        self.pcbTable.add(pcb)
-        self.qReady.queue(pcb)
         
+        if not programCopy == None:
+        
+            pcb = self.pcbCreate(programCopy)
+            self.pcbTable.add(pcb)
+            self.qReady.queue(pcb)
+            
+        else:
+            
+            self.shell.services(programName)
     
     def pcbCreate(self,program):
         pcbId = self.pcbTable.nextFreeId()

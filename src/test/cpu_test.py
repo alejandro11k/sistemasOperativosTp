@@ -50,9 +50,11 @@ class CpuTest(unittest.TestCase):
         self.ioDevice.setUp(self.interruptionManager,self.qIo,self.memory)
         self.ioDevice2.setUp(self.interruptionManager,self.qIo2,self.memory)
         
-        self.shell = Shell(self.interruptionManager)
+        self.shell = Shell(self.interruptionManager,self.pcbTable,self.hardDisk)
         
-        self.handlers = Handlers(self.interruptionManager,self.cpu,self.pcbTable,self.scheduler,self.qReady,self.hardDisk,self.memory)
+        self.handlers = Handlers(self.interruptionManager,self.cpu,
+                                 self.pcbTable,self.scheduler,self.qReady,
+                                 self.hardDisk,self.memory,self.shell)
         
         #el handler conoce el device
         self.handlers.handlerIOfromCPU.addDevice(self.ioDevice, self.qIo)
@@ -70,7 +72,8 @@ class CpuTest(unittest.TestCase):
         self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
         self.ioDevice2.learnInstruction(self.programs.instructions['realINPUT'])
         
-        self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
+        self.ciclos = 2000 #batery
+        self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2,self.ciclos)
         
     def pruebaDeEjecucionCpuProgram(self):
         

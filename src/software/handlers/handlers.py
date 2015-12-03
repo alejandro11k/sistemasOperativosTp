@@ -9,18 +9,18 @@ from software.handlers.handler_time_out import HandlerTimeOut
 
 class Handlers:
     
-    def __init__(self,interruptionManager,cpu,pcbTable,scheduler,qReady,hardDisk,memory):
+    def __init__(self,interruptionManager,cpu,pcbTable,scheduler,qReady,hardDisk,memory,shell):
 
-        self.addIrq(cpu,pcbTable,scheduler,qReady,hardDisk,memory)
+        self.addIrq(cpu,pcbTable,scheduler,qReady,hardDisk,memory,shell)
         self.registerHandlers(interruptionManager)
         
-    def addIrq(self,cpu,pcbTable,scheduler,qReady,hardDisk,memory):
+    def addIrq(self,cpu,pcbTable,scheduler,qReady,hardDisk,memory,shell):
         
         self.handlerKill = HandlerKill(cpu,pcbTable,scheduler)
         self.handlerTimeOut = HandlerTimeOut(cpu,qReady,scheduler)
         self.handlerIOfromCPU = HandlerIOfromCPU(cpu)
         self.handlerIOfromIO = HandlerIOfromIO(qReady)
-        self.handlerNew = HandlerNew2(hardDisk,memory,pcbTable,qReady,scheduler,cpu)
+        self.handlerNew = HandlerNew2(hardDisk,memory,pcbTable,qReady,scheduler,cpu,shell)
 
     def registerHandlers(self,interruptionManager):
         interruptionManager.register(IrqType.irqKILL, self.handlerKill)

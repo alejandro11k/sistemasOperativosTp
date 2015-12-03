@@ -16,7 +16,7 @@ class PCBTable:
         if len(self.pcbs)==0:
             print("empty pcb table")
         for n in self.pcbs:
-            print ("id:",n.idProcess,"state:",n.state)
+            print ("id:",n.idProcess,"state:",n.state,"name:",n.program.name)
         
     def remove (self,pcb):
         index = self.pcbs.index(pcb)
