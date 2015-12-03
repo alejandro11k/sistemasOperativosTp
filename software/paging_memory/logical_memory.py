@@ -3,14 +3,8 @@ from software.paging_memory.page import Page
 from idlelib.ColorDelegator import idprog
 
 class LogicalMemory(object):
-    '''
-    classdocs
-    '''
     
     def __init__(self, memory,pageSize):
-        '''
-        Constructor
-        '''
         self.memory = memory
         self.pageSize = pageSize
         self.pages = {}

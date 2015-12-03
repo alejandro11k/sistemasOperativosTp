@@ -1,19 +1,6 @@
-'''
-Created on Nov 29, 2015
-
-@author: alejandrok
-'''
 
 class Page(object):
-    '''
-    classdocs
-    '''
-
-
     def __init__(self,pageId,pageSize):
-        '''
-        Constructor
-        '''
         self.pageId = pageId
         self.pcb = None
         self.pageNumber = None
@@ -37,7 +24,7 @@ class Page(object):
                 nextI = n+(self.pageSize*pageNumber)
                 if nextI<pcb.program.programLength():
                     instruction = pcb.program.getInstruction(nextI)
-                    print("OLD stupidNumber:",self.pageId*self.pageSize+n)
+                    #print("OLD stupidNumber:",self.pageId*self.pageSize+n)
                     baseD = frame.firstMemoryDirection
                     address = baseD+n
                     memory.put(address,instruction)
