@@ -5,13 +5,14 @@ from software.process_states import ProcessStates
 
 class Schedule:
     
-    def __init__ (self,qready,cpu):
+    def __init__ (self,qready,cpu,quantum):
         self.qReady = qready
         self.cpu = cpu
+        self.quantum = quantum
         
     
     def giveOne(self):
-        self.__roundRobinQuantum(2)
+        self.__roundRobinQuantum(self.quantum)
     
     def __roundRobinQuantum(self,quantum):
         

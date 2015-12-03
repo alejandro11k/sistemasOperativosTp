@@ -37,7 +37,9 @@ class CpuTest(unittest.TestCase):
         self.qIo = QIo()
         self.qIo2 = QIo()
         self.pcbTable = PCBTable()
-        self.scheduler = Schedule(self.qReady,self.cpu)
+        #QUANTUM
+        self.quantum = 2
+        self.scheduler = Schedule(self.qReady,self.cpu,self.quantum)
         
         #test new memory model, need change irqNew to irqNew2 in handler class
         self.realMemory = self.memory

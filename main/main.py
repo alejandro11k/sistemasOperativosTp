@@ -33,7 +33,7 @@ if __name__ == '__main__':
         qIo = QIo()
         qIo2 = QIo()
         pcbTable = PCBTable()
-        scheduler = Schedule(qReady,cpu)
+        scheduler = Schedule(qReady,cpu,2)
         
         #test new memory model, need change irqNew to irqNew2 in handler class
         realMemory = memory
