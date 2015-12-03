@@ -19,7 +19,7 @@ class LogicalMemory(object):
         self.initializeFrame()
         
     def initializeFrame(self):
-        frameQuantity = self.memory.size() + 1 // self.pageSize
+        frameQuantity = (self.memory.size() + 1) // self.pageSize
         for n in range(frameQuantity):
             self.frames[n]= Frame(n,self.pageSize)
         
