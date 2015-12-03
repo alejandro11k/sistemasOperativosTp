@@ -33,6 +33,8 @@ class LogicalMemory(object):
         for n in range(len(self.frames)):
             if self.frames[n].isFree:
                 return self.frames[n]
+            else:
+                return False
     
     def freeFrame(self):
         freeFrame = self.takeAFreeFrame()
