@@ -39,7 +39,8 @@ class Page(object):
                 # IDpage as the same as frame yet! resolve!!!!!!!!!!!!!!!!!!!!
                     print("stupidNumber:",self.pageId*self.pageSize+n)
                     baseD = frame.firstMemoryDirection
-                    memory.put(baseD*self.pageSize+n,instruction)
+                    address = baseD+n
+                    memory.put(address,instruction)
                     self.isInFrame = True
                     frame.isFree = False
                     frame.page = self.pageId
@@ -50,7 +51,7 @@ class Page(object):
     
     def get(self,page,frame,positionInFrame,memory):
         
-        memoryFrame = frame.firstMemoryDirection*self.pageSize
+        memoryFrame = frame.firstMemoryDirection
         return memory.get(memoryFrame+positionInFrame)
     
         
