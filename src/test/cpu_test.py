@@ -26,7 +26,8 @@ class CpuTest(unittest.TestCase):
         #construyo el ordenador
         self.hardDisk = HardDisk()
         #self.memory = Memory()
-        self.memory = LimitedMemory(12)
+        self.memorySize = 12
+        self.memory = LimitedMemory(self.memorySize)
         self.cpu = CPU(self.memory)
         self.ioDevice = IoDevice("IOdevice OUT")
         self.ioDevice2 = IoDevice("IOdevice IN")
@@ -60,46 +61,49 @@ class CpuTest(unittest.TestCase):
         #agrego programas al disco
         self.programs = Programs()
         
-        self.hardDisk.save(self.programs.programs.pop(0))
-        self.hardDisk.save(self.programs.programs.pop(0))
-        self.hardDisk.save(self.programs.programs.pop(0))
-        self.hardDisk.save(self.programs.programs.pop(0))
+        for n in range(len(self.programs.programs)):
+            self.hardDisk.save(self.programs.programs.pop(0))
         
         #el device conoce la instruccion
         
         self.ioDevice.learnInstruction(self.programs.instructions['PRINT'])
         self.ioDevice2.learnInstruction(self.programs.instructions['INPUT'])
+        self.ioDevice2.learnInstruction(self.programs.instructions['realINPUT'])
         
         self.clock = Clock(self.interruptionManager,self.cpu,self.ioDevice,self.ioDevice2)
         
     def pruebaDeEjecucionCpuProgram(self):
         
-        self.shell.run("empty_program2")
-        self.shell.run("empty_program2")
+        self.shell.load("empty_program2")
+        self.shell.load("empty_program2")
         self.clock.run()
         
         self.assertTrue(True)
         
     def pruebaDeEjecucionCpuPrograms(self):
         
-        self.shell.run("empty_program")
-        self.shell.run("empty_program")
-        self.shell.run("empty_program")
-        self.shell.run("empty_program")
+        self.shell.load("empty_program")
+        self.shell.load("empty_program")
+        self.shell.load("empty_program")
+        self.shell.load("empty_program")
         self.clock.run()
         
         self.assertTrue(True)
         
     def pruebaDeEjecucionCpuAndIoPrograms(self):
         
-        self.shell.run("empty_program")
-        self.shell.run("io_program")
-        self.shell.run("io_program2")
-        self.shell.run("io_program")
+        self.shell.load("empty_program")
+        self.shell.load("io_program")
+        self.shell.load("io_program2")
+        self.shell.load("io_program")
         
         self.clock.run()
         
         self.assertTrue(True)
+        
+    def pruebaMain(self):
+        self.shell.load("realINPUT")
+        self.clock.run()
         
     '''
     def pruebaDeEjecucion2(self):

@@ -78,7 +78,10 @@ class CPU:
         else:
             self.instruction.process()
             print("CPU:procesando instruccion idP:" , self.pcb.idProcess)
-            self.pcb.incrementProgramCounter()  
+            if self.instruction.name == "JUMP0":
+                self.pcb.programCounter = 0
+            else:    
+                self.pcb.incrementProgramCounter()  
             self.quantum = self.quantum - 1
     
     def isIdle(self):

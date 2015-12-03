@@ -43,6 +43,8 @@ class IoDevice:
             
             self.process()
             
+            
+            
             self.irq = Irq(IrqType.irqIOfromIO,self.pcb)
             self.interruptorManager.handle(self.irq)
             self.pcb=None
@@ -61,7 +63,13 @@ class IoDevice:
         
     def process(self):
 
-        self.instruction.process()
+        
+        result = self.instruction.process()
+        
+        if not(result==None):
+                self.irq = Irq(IrqType.irqNEW, result)
+                self.interruptorManager.handle(self.irq)
+        
         print("IO Dev:procesando instruccion idP:" ,self.name,":",self.pcb.idProcess)
         self.pcb.incrementProgramCounter()
         

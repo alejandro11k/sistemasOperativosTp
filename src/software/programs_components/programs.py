@@ -18,18 +18,36 @@ class Programs:
         self.inProgram()
         self.outProgram()
         self.longCpuProgram()
+        self.realImputProgram()
             
     def addInstructions(self):
         instructionEnd = Instruction(InstructionType.instructionEND,"END")
         instructionCpu = Instruction(InstructionType.instructionCPU,"CPU")
+        instructionCpuJump = Instruction(InstructionType.instructionCPU,"JUMP0")
         instructionPrint = Instruction(InstructionType.instructionIO,"PRINT")
         instructionInput = Instruction(InstructionType.instructionIO,"INPUT")
+        instructionRealInput = Instruction(InstructionType.instructionIO,"realINPUT")
+        
         
         self.instructions['END'] = instructionEnd
         self.instructions['CPU'] = instructionCpu
         self.instructions['PRINT'] = instructionPrint
         self.instructions['INPUT'] = instructionInput
+        self.instructions['realINPUT'] = instructionRealInput
+        self.instructions['JUMP0'] = instructionCpuJump
     
+    def realImputProgram(self):
+        
+        instructions = []
+        instructions.append(self.instructions['realINPUT'])
+        instructions.append(self.instructions['JUMP0'])
+        instructions.append(self.instructions['END'])
+        
+        program = Program("realINPUT")
+        program.compileInstructions(instructions)
+        
+        self.programs.append(program)
+        
     def cpuProgram(self):
         
         instructions = []
