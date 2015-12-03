@@ -17,6 +17,7 @@ class LogicalMemory(object):
         self.virtualMemory = {}
         self.frames = {}
         self.initializeFrame()
+        self.time = 1
         
     def initializeFrame(self):
         frameQuantity = (self.memory.size() + 1) // self.pageSize
@@ -29,19 +30,41 @@ class LogicalMemory(object):
     def numberOfFrames(self):
         return self.memory.size() / self.pageSize
     
-    def takeAFreeFrame(self):
+    def anyFreeFrame(self):
+        value = False
         for n in range(len(self.frames)):
             if self.frames[n].isFree:
-                return self.frames[n]
-            else:
-                return False
+                value = True
+        return value
     
+    def takeFreeFrame(self):
+        freeFrame = None
+        for n in range(len(self.frames)):
+            if self.frames[n].isFree:
+                freeFrame = self.frames[n]
+        return freeFrame
+    
+    def lastRU(self):
+        freeFrame = self.frames[0]
+        for n in range(len(self.frames)):
+            if self.frames[n].timeAcces<freeFrame.timeAcces:
+                freeFrame = self.frames[n]
+        return freeFrame
+        
+    def swapFrame(self):
+        pass
+        
     def freeFrame(self):
-        freeFrame = self.takeAFreeFrame()
-        if not (freeFrame == False):
-            return freeFrame
+        freeFrame = None
+        if not self.anyFreeFrame():
+            freeFrame = self.lastRU()
+            self.swapToDisk(freeFrame)
+            #tell to page
+            #tell to frame
         else:
-            print("SIN MEMORIA!!! ...sin marcos... ")
+            freeFrame = self.takeFreeFrame()
+                
+        return freeFrame
             
     def freePage(self):
         usedPages = len(self.pages)
@@ -109,6 +132,8 @@ class LogicalMemory(object):
                 return n
         
     def getInstruction(self,n,frame,page,positionInFrame):
+        frame.timeAcces = self.time
+        self.time += 1
         return self.pages[n].get(page,frame,positionInFrame,self.memory)
     
     

@@ -9,6 +9,7 @@ class Frame:
         self.calculateFirstMemoryDirection()
         self.longevity = None
         self.isFree = True
+        self.timeAcces = 0
         
     def calculateFirstMemoryDirection(self):
         self.firstMemoryDirection = self.size * self.idFrame
